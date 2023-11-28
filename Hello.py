@@ -203,13 +203,13 @@ def run():
     grafico_actividad = mapa_actividad(df_riego, sn_shp)
     st.plotly_chart(grafico_actividad)
 
-    st.subheader('Superficie regada por semana')
-    grafico_sup_semanal = graficar_sup_semanal(df_riego)
-    st.plotly_chart(grafico_sup_semanal)
+  st.subheader('Superficie regada por semana')
+  grafico_sup_semanal = graficar_sup_semanal(df_riego)
+  st.plotly_chart(grafico_sup_semanal)
 
-    st.subheader('Cantidad de riegos por regador')
-    grafico_riegos_por_regador = graficar_riegos_por_regador(df_riego_pre)
-    st.plotly_chart(grafico_riegos_por_regador)
+  st.subheader('Cantidad de riegos por regador')
+  grafico_riegos_por_regador = graficar_riegos_por_regador(df_riego_pre)
+  st.plotly_chart(grafico_riegos_por_regador)
 
 
 if __name__ == "__main__":
