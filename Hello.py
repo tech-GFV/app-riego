@@ -206,7 +206,7 @@ def run():
     df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
     estado_carga_datos.text('Carga completada correctamente')
 
-    tipo_mapa = st.checkbox('Tipo  de mapa', ['Ciclos', 'Semana', 'Actividades'])
+    tipo_mapa = st.radio('Ciclos', ['Ciclos', 'Semana', 'Actividades'])
 
     if tipo_mapa == 'Ciclos':
       st.subheader('Cantidad de ciclos de riego ejecutados')
