@@ -206,7 +206,7 @@ def run():
     df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
     estado_carga_datos.text('Carga completada correctamente')
 
-    tipo_mapa = st.selectbox('Seleccionar mapa', ('Ciclos', 'Semana', 'Actividades'))
+    tipo_mapa = st.checkbox('Tipo  de mapa', ['Ciclos', 'Semana', 'Actividades'])
 
     if tipo_mapa == 'Ciclos':
       st.subheader('Cantidad de ciclos de riego ejecutados')
@@ -218,7 +218,7 @@ def run():
       st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
       grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp)
       st.plotly_chart(grafico_sem_riego)
-      
+
     if tipo_mapa == 'Actividades':
       st.subheader('Actividad por lote')
       grafico_actividad = mapa_actividad(df_riego, sn_shp)
