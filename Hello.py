@@ -47,39 +47,23 @@ def cargar_geometria():
   return sn_shp
 
 def crear_riegos(df):
-  #   Separar DF en APERTURA y CIERRE
-  df_kobo_ap = df[df['Acci_n']=="apertura"]
-  df_kobo_ci = df[df['Acci_n']=="cierre"]
-  #   Recorrer el df de apertura y buscar su cierre en el df de cierre
-  list_chacras, list_id, list_time_ap, list_time_ci, list_reg_ap, list_reg_ci = [], [], [], [], [], []
-  
-  for i_a in df_kobo_ap.index:
-    for i_c in df_kobo_ci.index:
-      id = df_kobo_ap['ID'][i_a]
-      chacra_ap = df_kobo_ap['ID_chacra'][i_a]
-      chacra_ci = df_kobo_ci['ID_chacra'][i_c]
-      if chacra_ap == chacra_ci:
-        time_ap = df_kobo_ap['end'][i_a]
-        time_ci = df_kobo_ci['end'][i_c]
-        if time_ci > time_ap and time_ci < (time_ap + datetime.timedelta(days=1)):
-          reg_ap = df_kobo_ap['_submitted_by'][i_a]
-          reg_ci = df_kobo_ci['_submitted_by'][i_c]
-          list_id.append(id)
-          list_chacras.append(chacra_ap)
-          list_time_ap.append(time_ap)
-          list_time_ci.append(time_ci)
-          list_reg_ap.append(reg_ap)
-          list_reg_ci.append(reg_ci)
-  
-  df_riego_aux = pd.DataFrame({'ID':list_id, 
-                               'ID_chacra':list_chacras,
-                               'time_ap':list_time_ap,
-                               'time_ci':list_time_ci,
-                               'reg_ap':list_reg_ap,
-                               'reg_ci':list_reg_ci})
-  
-  df_riego_aux['time_regado'] = df_riego_aux['time_ci'] - df_riego_aux['time_ap']
-  return df_riego_aux
+    df_apertura = df[df['Acci_n'] == "apertura"]
+    df_cierre = df[df['Acci_n'] == "cierre"]
+
+    merged_df = pd.merge(df_apertura, df_cierre, on='ID_chacra', suffixes=('_ap', '_ci'))
+    filtered_df = merged_df[
+        (merged_df['end_ci'] > merged_df['end_ap']) &
+        (merged_df['end_ci'] < merged_df['end_ap'] + pd.Timedelta(days=1))
+    ]
+
+    df_riego_aux = filtered_df[[
+        'ID_ap', 'ID_chacra', 'end_ap', 'end_ci', '_submitted_by_ap', '_submitted_by_ci'
+    ]].copy()
+
+    df_riego_aux.columns = ['ID', 'ID_chacra', 'time_ap', 'time_ci', 'reg_ap', 'reg_ci']
+    df_riego_aux['time_regado'] = df_riego_aux['time_ci'] - df_riego_aux['time_ap']
+
+    return df_riego_aux
 
 def unir_chacra_riego(df_riego_aux, df_chacra):
   #Agregar atributos de chacras a df_riego_aux
