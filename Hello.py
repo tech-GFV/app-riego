@@ -197,6 +197,7 @@ def run():
     st.session_state.load_state = False
 
   if actualizar or st.session_state.load_state:
+    st.session_state.load_state = True
     estado_carga_datos = st.text('Actualizando datos...')
     KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
     df_kobo = cargar_kobo(KOBO_TOKEN)
