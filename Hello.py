@@ -196,16 +196,17 @@ def run():
   if "load_state" not in st.session_state:
     st.session_state.load_state = False
 
+  st.session_state.load_state = True
+  estado_carga_datos = st.text('Actualizando datos...')
+  KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
+  df_kobo = cargar_kobo(KOBO_TOKEN)
+  df_chacras = cargar_chacras()
+  sn_shp = cargar_geometria()
+  df_riego_pre = crear_riegos(df_kobo)
+  df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
+  estado_carga_datos.text('Carga completada correctamente')
+
   if actualizar or st.session_state.load_state:
-    st.session_state.load_state = True
-    estado_carga_datos = st.text('Actualizando datos...')
-    KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
-    df_kobo = cargar_kobo(KOBO_TOKEN)
-    df_chacras = cargar_chacras()
-    sn_shp = cargar_geometria()
-    df_riego_pre = crear_riegos(df_kobo)
-    df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
-    estado_carga_datos.text('Carga completada correctamente')
 
     tipo_mapa = st.radio('Ciclos', ['Ciclos', 'Semana', 'Actividades'])
 
