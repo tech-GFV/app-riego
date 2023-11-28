@@ -182,6 +182,7 @@ def graficar_riegos_por_regador(df_riego_pre):
   fig_riegos_por_regador = px.bar(df_reg, x='reg_ap', y=['cant_ap', 'cant_ci'])
   return fig_riegos_por_regador
 
+
 def run():
   st.set_page_config(
       page_title="APP RIEGO",
@@ -196,7 +197,6 @@ def run():
   if "load_state" not in st.session_state:
     st.session_state.load_state = False
 
-  st.session_state.load_state = True
   estado_carga_datos = st.text('Actualizando datos...')
   KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
   df_kobo = cargar_kobo(KOBO_TOKEN)
@@ -207,8 +207,8 @@ def run():
   estado_carga_datos.text('Carga completada correctamente')
 
   if actualizar or st.session_state.load_state:
-
-    tipo_mapa = st.radio('Ciclos', ['Ciclos', 'Semana', 'Actividades'])
+    st.session_state.load_state = True
+    tipo_mapa = st.radio('Tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
 
     if tipo_mapa == 'Ciclos':
       st.subheader('Cantidad de ciclos de riego ejecutados')
