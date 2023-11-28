@@ -176,11 +176,6 @@ def run():
   st.title('Santa Nicolasa - Faro verde')
   st.header('APP Riego', divider="grey")
 
-  actualizar = st.button("Actualizar datos", type="primary")
-
-  if "load_state" not in st.session_state:
-    st.session_state.load_state = False
-
   estado_carga_datos = st.text('Actualizando datos...')
   KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
   df_kobo = cargar_kobo(KOBO_TOKEN)
@@ -190,25 +185,23 @@ def run():
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   estado_carga_datos.text('Carga completada correctamente')
 
-  if actualizar or st.session_state.load_state:
-    st.session_state.load_state = True
-    tipo_mapa = st.radio('Tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
+  tipo_mapa = st.selectbox('Tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
 
-    if tipo_mapa == 'Ciclos':
-      st.subheader('Cantidad de ciclos de riego ejecutados')
-      grafico_ciclos = mapa_ciclos(df_riego, sn_shp)
-      st.plotly_chart(grafico_ciclos)
+  if tipo_mapa == 'Ciclos':
+    st.subheader('Cantidad de ciclos de riego ejecutados')
+    grafico_ciclos = mapa_ciclos(df_riego, sn_shp)
+    st.plotly_chart(grafico_ciclos)
 
-    if tipo_mapa == 'Semana':
-      semana_actual = datetime.datetime.today().isocalendar().week
-      st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
-      grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp)
-      st.plotly_chart(grafico_sem_riego)
+  if tipo_mapa == 'Semana':
+    semana_actual = datetime.datetime.today().isocalendar().week
+    st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
+    grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp)
+    st.plotly_chart(grafico_sem_riego)
 
-    if tipo_mapa == 'Actividades':
-      st.subheader('Actividad por lote')
-      grafico_actividad = mapa_actividad(df_riego, sn_shp)
-      st.plotly_chart(grafico_actividad)
+  if tipo_mapa == 'Actividades':
+    st.subheader('Actividad por lote')
+    grafico_actividad = mapa_actividad(df_riego, sn_shp)
+    st.plotly_chart(grafico_actividad)
 
     st.subheader('Superficie regada por semana')
     grafico_sup_semanal = graficar_sup_semanal(df_riego)
