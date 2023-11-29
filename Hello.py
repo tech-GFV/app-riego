@@ -80,21 +80,21 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
   return df_riego
 
 def mapa_status_compuertas(df_riego, sn_shp):
-  fig_sem = px.choropleth(
+  fig_status = px.choropleth(
       df_riego,
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
       color="estado",
-      color_continuous_scale="RdBu",
+      color_discrete_map={"abierta": "green", "cerrada": "red"},
       projection="mercator",
       basemap_visible=True,
   )
-  fig_sem.update_geos(fitbounds="geojson")
-  fig_sem.update_layout(
+  fig_status.update_geos(fitbounds="geojson")
+  fig_status.update_layout(
     autosize=False,
     width=800,
     height=800)
-  return fig_sem
+  return fig_status
 
 def mapa_sem_riego(df_riego, sn_shp):
   fig_sem = px.choropleth(
@@ -221,15 +221,18 @@ def status_compuertas(df, df_chacra):
   # Crear un DataFrame final con los estados de las compuertas
   estados_df = pd.DataFrame(list(estado_compuertas.items()), columns=['ID_chacra', 'estado'])
 
+  # Merge con df de chacras
   estados_df = estados_df.merge(df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']], on='ID_chacra', how='left')
-
   return(estados_df)
-  
+
+
 
 def run():
   st.set_page_config(
       page_title="APP RIEGO",
       page_icon="💧",
+      layout="wide",
+      initial_sidebar_state="collapsed",
   )
 
   st.title('Santa Nicolasa - Faro verde')
