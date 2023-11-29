@@ -79,6 +79,23 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
                         'Semana: ' + str(df_riego['sem_ejec'])
   return df_riego
 
+def mapa_status_compuertas(df_riego, sn_shp):
+  fig_sem = px.choropleth(
+      df_riego,
+      geojson=sn_shp.set_index("ID_chacra").geometry,
+      locations="ID_xls",
+      color="estado",
+      color_continuous_scale="RdBu",
+      projection="mercator",
+      basemap_visible=True,
+  )
+  fig_sem.update_geos(fitbounds="geojson")
+  fig_sem.update_layout(
+    autosize=False,
+    width=800,
+    height=800)
+  return fig_sem
+
 def mapa_sem_riego(df_riego, sn_shp):
   fig_sem = px.choropleth(
       df_riego,
@@ -166,6 +183,48 @@ def graficar_riegos_por_regador(df_riego_pre):
   fig_riegos_por_regador = px.bar(df_reg, x='reg_ap', y=['cant_ap', 'cant_ci'])
   return fig_riegos_por_regador
 
+def status_compuertas(df, df_chacra):
+  df_apertura = df[df['Acci_n'] == "apertura"]
+  df_cierre = df[df['Acci_n'] == "cierre"]
+
+  # Crear copias de los DataFrames para evitar el problema de asignación
+  df_apertura = df_apertura.copy()
+  df_cierre = df_cierre.copy()
+
+  # Renombrar columnas para facilitar la fusión
+  df_apertura = df_apertura.rename(columns={'end': 'fecha_hora_apertura'})
+  df_cierre = df_cierre.rename(columns={'end': 'fecha_hora_cierre'})
+
+  # Fusionar ambos DataFrames en uno solo
+  df = pd.concat([df_apertura, df_cierre])
+
+  # Crear una columna 'tipo' para distinguir entre aperturas y cierres
+  df['tipo'] = df['Acci_n'] + '_' + df.groupby('ID').cumcount().astype(str)
+
+  # Ordenar por fecha y hora combinada
+  df = df.sort_values(by=['ID', 'tipo'])
+
+  # Inicializar un diccionario para mantener el estado actual de cada compuerta
+  estado_compuertas = {}
+
+  # Iterar sobre el DataFrame para simular el estado de las compuertas
+  for index, row in df.iterrows():
+      compuerta_id = row['ID_chacra']
+      accion = row['Acci_n']
+
+      # Actualizar el estado de la compuerta en el diccionario
+      if accion == 'apertura':
+          estado_compuertas[compuerta_id] = 'abierta'
+      elif accion == 'cierre':
+          estado_compuertas[compuerta_id] = 'cerrada'
+
+  # Crear un DataFrame final con los estados de las compuertas
+  estados_df = pd.DataFrame(list(estado_compuertas.items()), columns=['ID_chacra', 'estado'])
+
+  estados_df = estados_df.merge(df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']], on='ID_chacra', how='left')
+
+  return(estados_df)
+  
 
 def run():
   st.set_page_config(
@@ -183,7 +242,13 @@ def run():
   sn_shp = cargar_geometria()
   df_riego_pre = crear_riegos(df_kobo)
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
+  df_status_compuertas = status_compuertas(df_kobo, df_chacras)
+
   estado_carga_datos.text('Carga completada correctamente')
+
+  st.subheader('Status compuertas')
+  grafico_status = mapa_status_compuertas(df_status_compuertas, sn_shp)
+  st.plotly_chart(grafico_status)
 
   tipo_mapa = st.selectbox('Tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
 
