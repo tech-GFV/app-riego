@@ -7,9 +7,12 @@ import numpy as np
 import plotly.express as px
 import streamlit as st
 from streamlit.logger import get_logger
+import requests
+from lxml import html
 
 LOGGER = get_logger(__name__)
 
+# Preprocesamiento------------------------------------------------------------------------
 def cargar_kobo(TOKEN):
   kobo = KoboExtractor(TOKEN, 'https://eu.kobotoolbox.org/api/v2')
   #   Cargar KOBOTOOLBOX
@@ -79,6 +82,7 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
                         'Semana: ' + str(df_riego['sem_ejec'])
   return df_riego
 
+# Mapas----------------------------------------------------------------------------------
 def mapa_status_compuertas(df_riego, sn_shp):
   fig_status = px.choropleth(
       df_riego,
@@ -147,6 +151,7 @@ def mapa_actividad(df_riego, sn_shp):
     height=800)
   return fig_actividad
 
+# Graficos-------------------------------------------------------------------------------------------------
 def graficar_sup_semanal(df_riego):
   #Convertir columna superficie a float
   df_riego['superficie'] = df_riego['superficie'].str.replace(',','.')
@@ -160,7 +165,7 @@ def graficar_sup_semanal(df_riego):
   #Round superficie
   df_sup_semanal['sup_regada'] = df_sup_semanal['sup_regada'].round()
   #Graficar
-  fig_sup_semanal = px.line(df_sup_semanal, x="sem_ejec", y="sup_regada", text="sup_regada")
+  fig_sup_semanal = px.line(df_sup_semanal, x="sem_ejec", y="sup_regada", text="sup_regada", width=900, height=500)
   fig_sup_semanal.update_traces(textposition="top center")
   return fig_sup_semanal
 
@@ -180,9 +185,10 @@ def graficar_riegos_por_regador(df_riego_pre):
   #Ordenar de mayor a menor
   df_reg = df_reg.sort_values(by=['total'], ascending=False)
   #Graficar
-  fig_riegos_por_regador = px.bar(df_reg, x='reg_ap', y=['cant_ap', 'cant_ci'])
+  fig_riegos_por_regador = px.bar(df_reg, x='reg_ap', y=['cant_ap', 'cant_ci'], width=900, height=500)
   return fig_riegos_por_regador
 
+# Funciones auxiliares-------------------------------------------------------------------------------
 def status_compuertas(df, df_chacra):
   df_apertura = df[df['Acci_n'] == "apertura"]
   df_cierre = df[df['Acci_n'] == "cierre"]
@@ -225,6 +231,49 @@ def status_compuertas(df, df_chacra):
   estados_df = estados_df.merge(df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']], on='ID_chacra', how='left')
   return(estados_df)
 
+def obtener_caudal_casa_piedra():
+   # URL del sitio web
+  url = 'https://www.coirco.gov.ar/'
+
+  # Realizar la solicitud GET a la página
+  response = requests.get(url)
+
+  # Comprobar si la solicitud se realizó con éxito (código de estado 200)
+  if response.status_code == 200:
+      # Crear un objeto de tipo 'lxml' para analizar el contenido HTML
+      tree = html.fromstring(response.content)
+      
+      # XPath del elemento que contiene el caudal erogado (reemplaza con tu XPath)
+      xpath_caudal = '/html/body/div[2]/div[1]/div[3]/div/div/p[2]/span[2]/span[2]/text()'
+      
+      # Encontrar el elemento con el XPath proporcionado
+      caudal_element = tree.xpath(xpath_caudal)
+
+      raw_caudal = str(caudal_element[1])
+      caudal = raw_caudal.strip()
+  return caudal
+
+def obtener_ultimo_registro(df):
+   # Ordena el DataFrame por la columna de fecha en orden descendente
+  df_riego_sort = df.sort_values('time_ci', ascending=False)
+
+  # Obtiene el último registro después de ordenar
+  ultimo_registro = df_riego_sort.head(1)
+
+  # Imprime el último registro
+  time_ultimo_registro = list(ultimo_registro['time_ci'])[0].strftime("%d/%m/%y %H:%M")
+
+  return time_ultimo_registro
+
+def calcular_kpis(df):
+  caudal_casa_piedra = obtener_caudal_casa_piedra()
+  ultimo_registro = obtener_ultimo_registro(df)
+  return [caudal_casa_piedra, ultimo_registro]
+
+def mostrar_kpis(kpis, kpi_names):
+    st.header("Parametros")
+    for i, (col, (kpi_name, kpi_value)) in enumerate(zip(st.columns(3), zip(kpi_names, kpis))):
+        col.metric(label=kpi_name, value=kpi_value)
 
 
 def run():
@@ -249,35 +298,39 @@ def run():
 
   estado_carga_datos.text('Carga completada correctamente')
 
+  kpis = calcular_kpis(df_riego)
+  kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
+  mostrar_kpis(kpis, kpi_names)
+
   st.subheader('Status compuertas')
   grafico_status = mapa_status_compuertas(df_status_compuertas, sn_shp)
-  st.plotly_chart(grafico_status)
+  st.plotly_chart(grafico_status, use_container_width=True)
 
   tipo_mapa = st.selectbox('Tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
 
   if tipo_mapa == 'Ciclos':
     st.subheader('Cantidad de ciclos de riego ejecutados')
     grafico_ciclos = mapa_ciclos(df_riego, sn_shp)
-    st.plotly_chart(grafico_ciclos)
+    st.plotly_chart(grafico_ciclos, use_container_width=True)
 
   if tipo_mapa == 'Semana':
     semana_actual = datetime.datetime.today().isocalendar().week
     st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
     grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp)
-    st.plotly_chart(grafico_sem_riego)
+    st.plotly_chart(grafico_sem_riego, use_container_width=True)
 
   if tipo_mapa == 'Actividades':
     st.subheader('Actividad por lote')
     grafico_actividad = mapa_actividad(df_riego, sn_shp)
-    st.plotly_chart(grafico_actividad)
+    st.plotly_chart(grafico_actividad, use_container_width=True)
 
   st.subheader('Superficie regada por semana')
   grafico_sup_semanal = graficar_sup_semanal(df_riego)
-  st.plotly_chart(grafico_sup_semanal)
+  st.plotly_chart(grafico_sup_semanal, use_container_width=True)
 
   st.subheader('Cantidad de riegos por regador')
   grafico_riegos_por_regador = graficar_riegos_por_regador(df_riego_pre)
-  st.plotly_chart(grafico_riegos_por_regador)
+  st.plotly_chart(grafico_riegos_por_regador, use_container_width=True)
 
 
 if __name__ == "__main__":
