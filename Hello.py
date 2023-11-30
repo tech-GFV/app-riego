@@ -204,8 +204,15 @@ def status_compuertas(df, df_chacra):
   # Fusionar ambos DataFrames en uno solo
   df = pd.concat([df_apertura, df_cierre])
 
+  # Agregar columna de fecha 
+  df['fecha_hora'] = df['fecha_hora_apertura'].fillna(df['fecha_hora_cierre'])
+
+  # Ordenar por fecha
+  df = df.sort_values(by=['fecha_hora'])
+
   # Crear una columna 'tipo' para distinguir entre aperturas y cierres
-  df['tipo'] = df['Acci_n'] + '_' + df.groupby('ID').cumcount().astype(str)
+  #df['tipo'] = df['Acci_n'] + '_' + df.groupby('ID').cumcount().astype(str)
+  df['tipo'] = df.groupby('ID').cumcount().astype(str)
 
   # Ordenar por fecha y hora combinada
   df = df.sort_values(by=['ID', 'tipo'])
@@ -284,10 +291,10 @@ def run():
       initial_sidebar_state="collapsed",
   )
 
-  st.title('Santa Nicolasa - Faro verde')
-  st.header('APP Riego', divider="grey")
+  st.title('🌱 Santa Nicolasa - Faro verde')
+  st.header('💧 APP Riego', divider="grey")
 
-  estado_carga_datos = st.text('Actualizando datos...')
+  #estado_carga_datos = st.text('🕑 Actualizando datos...')
   KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
   df_kobo = cargar_kobo(KOBO_TOKEN)
   df_chacras = cargar_chacras()
@@ -296,7 +303,7 @@ def run():
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
 
-  estado_carga_datos.text('Carga completada correctamente')
+  #estado_carga_datos.text('✅ Carga completada correctamente')
 
   kpis = calcular_kpis(df_riego)
   kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
