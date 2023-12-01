@@ -292,7 +292,7 @@ def run():
   )
 
   st.title('🌱 Santa Nicolasa - Faro verde')
-  st.header('💧 APP Riego', divider="grey")
+  st.header('💧 APP Riego', divider="green")
 
   #estado_carga_datos = st.text('🕑 Actualizando datos...')
   KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
@@ -309,11 +309,16 @@ def run():
   kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
   mostrar_kpis(kpis, kpi_names)
 
-  st.subheader('Status compuertas')
+  st.divider()
+
+  st.header('Status compuertas')
   grafico_status = mapa_status_compuertas(df_status_compuertas, sn_shp)
   st.plotly_chart(grafico_status, use_container_width=True)
 
-  tipo_mapa = st.selectbox('Tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
+  st.divider()
+  st.header('Mapas')
+
+  tipo_mapa = st.selectbox('Seleccione el tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
 
   if tipo_mapa == 'Ciclos':
     st.subheader('Cantidad de ciclos de riego ejecutados')
@@ -331,11 +336,13 @@ def run():
     grafico_actividad = mapa_actividad(df_riego, sn_shp)
     st.plotly_chart(grafico_actividad, use_container_width=True)
 
-  st.subheader('Superficie regada por semana')
+  st.divider()
+  st.header('Superficie regada por semana')
   grafico_sup_semanal = graficar_sup_semanal(df_riego)
   st.plotly_chart(grafico_sup_semanal, use_container_width=True)
 
-  st.subheader('Cantidad de riegos por regador')
+  st.divider()
+  st.header('Cantidad de riegos por regador')
   grafico_riegos_por_regador = graficar_riegos_por_regador(df_riego_pre)
   st.plotly_chart(grafico_riegos_por_regador, use_container_width=True)
 
