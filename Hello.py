@@ -89,9 +89,11 @@ def mapa_status_compuertas(df_riego, sn_shp):
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
       color="estado",
-      color_discrete_map={"abierta": "green", "cerrada": "red"},
+      color_discrete_map={"abierta": "green", "cerrada": "red", "s/cierre": "black"},
       projection="mercator",
       basemap_visible=True,
+      hover_name='ID_chacra',
+      hover_data=['Tiempo_estado']
   )
   fig_status.update_geos(fitbounds="geojson")
   fig_status.update_layout(
@@ -100,13 +102,16 @@ def mapa_status_compuertas(df_riego, sn_shp):
     height=800)
   return fig_status
 
-def mapa_sem_riego(df_riego, sn_shp):
+def mapa_sem_riego(df_riego, sn_shp, semana):
+  df_riego_copia = df_riego.copy()
+  if semana != "TODAS":
+    df_riego_copia['sem_ejec'] = df_riego_copia['sem_ejec'].apply(lambda x: x if x == semana else 0)
   fig_sem = px.choropleth(
-      df_riego,
+      df_riego_copia,
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
       color="sem_ejec",
-      color_continuous_scale="RdBu",
+      color_discrete_map="blue",
       projection="mercator",
       basemap_visible=True,
   )
@@ -117,13 +122,16 @@ def mapa_sem_riego(df_riego, sn_shp):
     height=800)
   return fig_sem
 
-def mapa_ciclos(df_riego, sn_shp):
+def mapa_ciclos(df_riego, sn_shp, ciclos):
+  df_riego_copia = df_riego.copy()
+  if ciclos != "TODOS":
+    df_riego_copia['ciclos'] = df_riego_copia['ciclos'].apply(lambda x: x if x == ciclos else 0)
   fig_ciclos = px.choropleth(
-      df_riego,
+      df_riego_copia,
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
       color="ciclos",
-      color_continuous_scale="RdBu",
+      color_discrete_map="green",
       projection="mercator",
       basemap_visible=True,
   )
@@ -189,54 +197,66 @@ def graficar_riegos_por_regador(df_riego_pre):
   return fig_riegos_por_regador
 
 # Funciones auxiliares-------------------------------------------------------------------------------
+def cantidad_compuertas_abiertas(estados_df):
+   cantidad_abiertas = estados_df[estados_df['estado'] == 'abierta'].shape[0]
+   return cantidad_abiertas
+
 def status_compuertas(df, df_chacra):
-  df_apertura = df[df['Acci_n'] == "apertura"]
-  df_cierre = df[df['Acci_n'] == "cierre"]
+    # Filtrar por apertura y cierre
+    df_apertura = df[df['Acci_n'] == "apertura"].copy()
+    df_cierre = df[df['Acci_n'] == "cierre"].copy()
 
-  # Crear copias de los DataFrames para evitar el problema de asignación
-  df_apertura = df_apertura.copy()
-  df_cierre = df_cierre.copy()
+    # Renombrar columnas
+    df_apertura.rename(columns={'end': 'fecha_hora_apertura'}, inplace=True)
+    df_cierre.rename(columns={'end': 'fecha_hora_cierre'}, inplace=True)
 
-  # Renombrar columnas para facilitar la fusión
-  df_apertura = df_apertura.rename(columns={'end': 'fecha_hora_apertura'})
-  df_cierre = df_cierre.rename(columns={'end': 'fecha_hora_cierre'})
+    # Fusionar ambos DataFrames en uno solo
+    df = pd.concat([df_apertura, df_cierre])
 
-  # Fusionar ambos DataFrames en uno solo
-  df = pd.concat([df_apertura, df_cierre])
+    # Agregar columna de fecha
+    df['fecha_hora'] = df['fecha_hora_apertura'].fillna(df['fecha_hora_cierre'])
 
-  # Agregar columna de fecha 
-  df['fecha_hora'] = df['fecha_hora_apertura'].fillna(df['fecha_hora_cierre'])
+    # Ordenar por fecha
+    df.sort_values(by='fecha_hora', inplace=True)
 
-  # Ordenar por fecha
-  df = df.sort_values(by=['fecha_hora'])
+    # Crear una columna 'tipo' para distinguir entre aperturas y cierres
+    df['tipo'] = df.groupby('ID').cumcount().astype(str)
 
-  # Crear una columna 'tipo' para distinguir entre aperturas y cierres
-  #df['tipo'] = df['Acci_n'] + '_' + df.groupby('ID').cumcount().astype(str)
-  df['tipo'] = df.groupby('ID').cumcount().astype(str)
+    # Inicializar un diccionario para mantener el estado actual de cada compuerta
+    estado_compuertas = {}
 
-  # Ordenar por fecha y hora combinada
-  df = df.sort_values(by=['ID', 'tipo'])
+    # Iterar sobre el DataFrame para simular el estado de las compuertas
+    for _, row in df.iterrows():
+        compuerta_id = row['ID_chacra']
+        accion = row['Acci_n']
+        fecha_hora = row['fecha_hora']
 
-  # Inicializar un diccionario para mantener el estado actual de cada compuerta
-  estado_compuertas = {}
+        if compuerta_id not in estado_compuertas:
+            estado_compuertas[compuerta_id] = {'estado': None, 'fecha_hora': None}
 
-  # Iterar sobre el DataFrame para simular el estado de las compuertas
-  for index, row in df.iterrows():
-      compuerta_id = row['ID_chacra']
-      accion = row['Acci_n']
+        if accion == 'apertura':
+            estado_compuertas[compuerta_id]['estado'] = 'abierta'
+            estado_compuertas[compuerta_id]['fecha_hora'] = fecha_hora
+        elif accion == 'cierre':
+            estado_compuertas[compuerta_id]['estado'] = 'cerrada'
+            estado_compuertas[compuerta_id]['fecha_hora'] = fecha_hora
 
-      # Actualizar el estado de la compuerta en el diccionario
-      if accion == 'apertura':
-          estado_compuertas[compuerta_id] = 'abierta'
-      elif accion == 'cierre':
-          estado_compuertas[compuerta_id] = 'cerrada'
+    # Crear DataFrame con estados de las compuertas
+    estados_df = pd.DataFrame.from_dict(estado_compuertas, orient='index').reset_index()
+    estados_df.columns = ['ID_chacra', 'estado', 'fecha_hora']
 
-  # Crear un DataFrame final con los estados de las compuertas
-  estados_df = pd.DataFrame(list(estado_compuertas.items()), columns=['ID_chacra', 'estado'])
+    # Merge con df de chacras
+    estados_df = estados_df.merge(df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']], on='ID_chacra', how='left')
 
-  # Merge con df de chacras
-  estados_df = estados_df.merge(df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']], on='ID_chacra', how='left')
-  return(estados_df)
+    # Calcular tiempo transcurrido en horas
+    estados_df['fecha_hora'] = pd.to_datetime(estados_df['fecha_hora'])
+    estados_df['Tiempo_estado'] = (pd.to_datetime('now', utc=estados_df['fecha_hora'].dt.tz) - estados_df['fecha_hora']).dt.total_seconds() / 3600
+    estados_df['Tiempo_estado'] = estados_df['Tiempo_estado'].round(decimals=0)
+    # Actualizar estado si tiempo transcurrido es mayor a 24 y estado es 'abierta'
+    condicion = (estados_df['Tiempo_estado'] > 24) & (estados_df['estado'] == 'abierta')
+    estados_df.loc[condicion, 'estado'] = 's/ cierre'
+
+    return estados_df
 
 def obtener_caudal_casa_piedra():
    # URL del sitio web
@@ -294,7 +314,6 @@ def run():
   st.title('🌱 Santa Nicolasa - Faro verde')
   st.header('💧 APP Riego', divider="green")
 
-  #estado_carga_datos = st.text('🕑 Actualizando datos...')
   KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
   df_kobo = cargar_kobo(KOBO_TOKEN)
   df_chacras = cargar_chacras()
@@ -303,8 +322,6 @@ def run():
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
 
-  #estado_carga_datos.text('✅ Carga completada correctamente')
-
   kpis = calcular_kpis(df_riego)
   kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
   mostrar_kpis(kpis, kpi_names)
@@ -312,29 +329,31 @@ def run():
   st.divider()
 
   st.header('Status compuertas')
+  cantidad_abiertas = cantidad_compuertas_abiertas(df_status_compuertas)
+  col1, col2 = st.columns(2)
+  col1.metric("Compuertas abiertas", cantidad_abiertas)
   grafico_status = mapa_status_compuertas(df_status_compuertas, sn_shp)
   st.plotly_chart(grafico_status, use_container_width=True)
 
   st.divider()
   st.header('Mapas')
 
-  tipo_mapa = st.selectbox('Seleccione el tipo de mapa', ['Ciclos', 'Semana', 'Actividades'])
+  st.subheader('Cantidad de ciclos de riego ejecutados')
+  tipos_ciclo = np.insert(df_riego['ciclos'].unique().astype(object), 0, "TODOS")
+  seleccion_ciclo = st.selectbox('Seleccione la cantidad de ciclos', tipos_ciclo)
+  grafico_ciclos = mapa_ciclos(df_riego, sn_shp, seleccion_ciclo)
+  st.plotly_chart(grafico_ciclos, use_container_width=True)
 
-  if tipo_mapa == 'Ciclos':
-    st.subheader('Cantidad de ciclos de riego ejecutados')
-    grafico_ciclos = mapa_ciclos(df_riego, sn_shp)
-    st.plotly_chart(grafico_ciclos, use_container_width=True)
+  semana_actual = datetime.datetime.today().isocalendar().week
+  st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
+  tipos_semana = np.insert(df_riego['sem_ejec'].unique().astype(object), 0, "TODAS")
+  seleccion_semana = st.selectbox('Seleccione una semana', tipos_semana)
+  grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp, seleccion_semana)
+  st.plotly_chart(grafico_sem_riego, use_container_width=True)
 
-  if tipo_mapa == 'Semana':
-    semana_actual = datetime.datetime.today().isocalendar().week
-    st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
-    grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp)
-    st.plotly_chart(grafico_sem_riego, use_container_width=True)
-
-  if tipo_mapa == 'Actividades':
-    st.subheader('Actividad por lote')
-    grafico_actividad = mapa_actividad(df_riego, sn_shp)
-    st.plotly_chart(grafico_actividad, use_container_width=True)
+  st.subheader('Actividad por lote')
+  grafico_actividad = mapa_actividad(df_riego, sn_shp)
+  st.plotly_chart(grafico_actividad, use_container_width=True)
 
   st.divider()
   st.header('Superficie regada por semana')
