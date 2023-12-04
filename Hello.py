@@ -111,7 +111,7 @@ def mapa_sem_riego(df_riego, sn_shp, semana):
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
       color="sem_ejec",
-      color_discrete_map="blue",
+      color_continuous_scale="Bluered_r",
       projection="mercator",
       basemap_visible=True,
   )
@@ -131,7 +131,7 @@ def mapa_ciclos(df_riego, sn_shp, ciclos):
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
       color="ciclos",
-      color_discrete_map="green",
+      color_continuous_scale="Bluered_r",
       projection="mercator",
       basemap_visible=True,
   )
@@ -149,6 +149,25 @@ def mapa_actividad(df_riego, sn_shp):
       locations="ID_xls",
       color="actividad",
       color_continuous_scale="RdBu",
+      projection="mercator",
+      basemap_visible=True,
+  )
+  fig_actividad.update_geos(fitbounds="geojson")
+  fig_actividad.update_layout(
+    autosize=False,
+    width=800,
+    height=800)
+  return fig_actividad
+
+def mapa_tiempo_promedio(df_riego, sn_shp):
+  df_aux = df_riego.copy()
+  df_aux['t_riego_prom'] = df_aux['t_riego_prom'].dt.total_seconds() / 3600
+  fig_actividad = px.choropleth(
+      df_aux,
+      geojson=sn_shp.set_index("ID_chacra").geometry,
+      locations="ID_xls",
+      color="t_riego_prom",
+      color_continuous_scale="Bluered",
       projection="mercator",
       basemap_visible=True,
   )
@@ -350,6 +369,10 @@ def run():
   seleccion_semana = st.selectbox('Seleccione una semana', tipos_semana)
   grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp, seleccion_semana)
   st.plotly_chart(grafico_sem_riego, use_container_width=True)
+
+  st.subheader('Tiempo de riego promedio [Hs]')
+  grafico_tiempo_promedio = mapa_tiempo_promedio(df_riego, sn_shp)
+  st.plotly_chart(grafico_tiempo_promedio, use_container_width=True)
 
   st.subheader('Actividad por lote')
   grafico_actividad = mapa_actividad(df_riego, sn_shp)
