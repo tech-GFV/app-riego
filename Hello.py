@@ -80,6 +80,7 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
   df_riego['sem_ejec'] = df_riego.time_ci.dt.isocalendar().week.astype('int')
   df_riego['text_sem'] = df_riego['ID'] + '<br>' + \
                         'Semana: ' + str(df_riego['sem_ejec'])
+  df_riego['superficie'] = df_riego['superficie'].apply(lambda x: float(x.replace(',', '.').replace('#N/D', '0')) if x else 0)
   return df_riego
 
 # Mapas----------------------------------------------------------------------------------
@@ -93,7 +94,7 @@ def mapa_status_compuertas(df_riego, sn_shp):
       projection="mercator",
       basemap_visible=True,
       hover_name='ID_chacra',
-      hover_data=['Tiempo_estado']
+      hover_data=['Tiempo_estado', 'ACTIVIDAD']
   )
   fig_status.update_geos(fitbounds="geojson")
   fig_status.update_layout(
@@ -114,6 +115,7 @@ def mapa_sem_riego(df_riego, sn_shp, semana):
       color_continuous_scale="Bluered_r",
       projection="mercator",
       basemap_visible=True,
+      hover_data=['actividad'],
   )
   fig_sem.update_geos(fitbounds="geojson")
   fig_sem.update_layout(
@@ -134,6 +136,7 @@ def mapa_ciclos(df_riego, sn_shp, ciclos):
       color_continuous_scale="Bluered_r",
       projection="mercator",
       basemap_visible=True,
+      hover_data=['actividad'],
   )
   fig_ciclos.update_geos(fitbounds="geojson")
   fig_ciclos.update_layout(
@@ -151,6 +154,7 @@ def mapa_actividad(df_riego, sn_shp):
       color_continuous_scale="RdBu",
       projection="mercator",
       basemap_visible=True,
+      hover_data=['actividad'],
   )
   fig_actividad.update_geos(fitbounds="geojson")
   fig_actividad.update_layout(
@@ -162,11 +166,8 @@ def mapa_actividad(df_riego, sn_shp):
 def mapa_tiempo_promedio(df_riego, sn_shp):
   df_aux = df_riego.copy()
   df_aux['t_riego_prom'] = df_aux['t_riego_prom'].dt.total_seconds() / 3600
-  df_aux['superficie'] = df_aux['superficie'].str.replace(',','.')
-  df_aux['superficie'] = df_aux['superficie'].str.replace('#N/D','0')
-  df_aux['superficie'] = df_aux['superficie'].str.replace('','0')
-  df_aux['superficie'] = df_aux['superficie'].astype('float')
   df_aux['t/sup'] = df_aux['t_riego_prom'] / df_aux['superficie']
+
   fig_actividad = px.choropleth(
       df_aux,
       geojson=sn_shp.set_index("ID_chacra").geometry,
@@ -175,6 +176,7 @@ def mapa_tiempo_promedio(df_riego, sn_shp):
       color_continuous_scale="Bluered",
       projection="mercator",
       basemap_visible=True,
+      hover_data=['t_riego_prom', 'superficie', 'actividad'],
   )
   fig_actividad.update_geos(fitbounds="geojson")
   fig_actividad.update_layout(
@@ -185,11 +187,6 @@ def mapa_tiempo_promedio(df_riego, sn_shp):
 
 # Graficos-------------------------------------------------------------------------------------------------
 def graficar_sup_semanal(df_riego):
-  #Convertir columna superficie a float
-  df_riego['superficie'] = df_riego['superficie'].str.replace(',','.')
-  df_riego['superficie'] = df_riego['superficie'].str.replace('#N/D','0')
-  df_riego['superficie'] = df_riego['superficie'].str.replace('','0')
-  df_riego['superficie'] = df_riego['superficie'].astype('float')
   #Agrupar riegos por semana y mostrar superficie regada
   df_sup_semanal = df_riego.groupby('sem_ejec')\
         .agg(sup_regada=('superficie', 'sum'))\
@@ -369,13 +366,14 @@ def run():
   st.plotly_chart(grafico_ciclos, use_container_width=True)
 
   semana_actual = datetime.datetime.today().isocalendar().week
-  st.subheader(f'Semana del ultimo riego ejecutado   SEM ACTUAL: {semana_actual}')
+  st.subheader('Semana del ultimo riego ejecutado')
+  st.text(f'Semana actual: {semana_actual}')
   tipos_semana = np.insert(df_riego['sem_ejec'].unique().astype(object), 0, "TODAS")
   seleccion_semana = st.selectbox('Seleccione una semana', tipos_semana)
   grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp, seleccion_semana)
   st.plotly_chart(grafico_sem_riego, use_container_width=True)
 
-  st.subheader('Tiempo de riego promedio [Hs]')
+  st.subheader('Tiempo de riego promedio por hectarea [Hs / Ha]')
   grafico_tiempo_promedio = mapa_tiempo_promedio(df_riego, sn_shp)
   st.plotly_chart(grafico_tiempo_promedio, use_container_width=True)
 
