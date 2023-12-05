@@ -162,11 +162,16 @@ def mapa_actividad(df_riego, sn_shp):
 def mapa_tiempo_promedio(df_riego, sn_shp):
   df_aux = df_riego.copy()
   df_aux['t_riego_prom'] = df_aux['t_riego_prom'].dt.total_seconds() / 3600
+  df_aux['superficie'] = df_aux['superficie'].str.replace(',','.')
+  df_aux['superficie'] = df_aux['superficie'].str.replace('#N/D','0')
+  df_aux['superficie'] = df_aux['superficie'].str.replace('','0')
+  df_aux['superficie'] = df_aux['superficie'].astype('float')
+  df_aux['t/sup'] = df_aux['t_riego_prom'] / df_aux['superficie']
   fig_actividad = px.choropleth(
       df_aux,
       geojson=sn_shp.set_index("ID_chacra").geometry,
       locations="ID_xls",
-      color="t_riego_prom",
+      color="t/sup",
       color_continuous_scale="Bluered",
       projection="mercator",
       basemap_visible=True,
