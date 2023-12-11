@@ -78,8 +78,8 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
   #Agregar semana de riego
   df_riego['fecha_ult_ejec'] = df_riego.time_ci.dt.date
   df_riego['sem_ejec'] = df_riego.time_ci.dt.isocalendar().week.astype('int')
-  df_riego['text_sem'] = df_riego['ID'] + '<br>' + \
-                        'Semana: ' + str(df_riego['sem_ejec'])
+  #df_riego['text_sem'] = df_riego['ID'] + '<br>' + \
+  #                      'Semana: ' + str(df_riego['sem_ejec'])
   df_riego['superficie'] = df_riego['superficie'].apply(lambda x: float(x.replace(',', '.').replace('#N/D', '0')) if x else 0)
   return df_riego
 
@@ -342,6 +342,18 @@ def run():
   df_riego_pre = crear_riegos(df_kobo)
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
+
+  csv = df_riego.to_csv().encode('utf-8')
+
+  hoy = datetime.datetime.today()
+
+  st.download_button(
+    "Descargar csv",
+    csv,
+    f"status_riego_{hoy}.csv",
+    "text/csv",
+    key='download-csv'
+  )
 
   kpis = calcular_kpis(df_riego)
   kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
