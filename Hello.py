@@ -34,7 +34,7 @@ def cargar_kobo(TOKEN):
   return df_kobo
 
 def cargar_chacras():
-  df_chacras = pd.read_csv('base_chacras.csv', sep=';', encoding='latin-1')
+  df_chacras = pd.read_csv('base_chacras.csv', sep=';', encoding='utf-8')
   #   Renombrar columna de ID
   df_chacras = df_chacras.rename(columns={"ID_QR":"ID_chacra"})
   df_chacras['ID_chacra'] = df_chacras['ID_chacra'].str.replace(' ', '')
