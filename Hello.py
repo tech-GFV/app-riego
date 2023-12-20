@@ -331,7 +331,8 @@ def obtener_ultimo_registro(df):
 def calcular_kpis(df):
   caudal_casa_piedra = obtener_caudal_casa_piedra()[0]
   ultimo_registro = obtener_ultimo_registro(df)
-  return [caudal_casa_piedra, ultimo_registro]
+  cantidad_riegos = df['ciclos'].sum()
+  return [caudal_casa_piedra, ultimo_registro, cantidad_riegos]
 
 def mostrar_kpis(kpis, kpi_names, kpis_dif):
     st.header("Parametros")
@@ -383,7 +384,7 @@ def run():
 
   kpis = calcular_kpis(df_riego)
   kpis_dif = [f'{obtener_caudal_casa_piedra()[1]} m³/s respecto a ayer', '', '']
-  kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
+  kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro', 'Riegos ejecutados']
   mostrar_kpis(kpis, kpi_names, kpis_dif)
 
   st.divider()
