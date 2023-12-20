@@ -293,13 +293,28 @@ def obtener_caudal_casa_piedra():
       
       # XPath del elemento que contiene el caudal erogado (reemplaza con tu XPath)
       xpath_caudal = '/html/body/div[2]/div[1]/div[3]/div/div/p[2]/span[2]/span[2]/text()'
+      xpath_caudal_ayer = '/html/body/div[2]/div[1]/div[3]/div/div/p[2]/span[2]/text()'
       
       # Encontrar el elemento con el XPath proporcionado
       caudal_element = tree.xpath(xpath_caudal)
+      caudal_ayer_element = tree.xpath(xpath_caudal_ayer)
 
       raw_caudal = str(caudal_element[1])
+      raw_caudal_ayer = str(caudal_ayer_element[1])
+
       caudal = raw_caudal.strip()
-  return caudal
+
+      # Encontrar el índice del texto ' m³/s'
+      indice_caudal = raw_caudal.find(' m³/s')
+      indice_caudal_ayer = raw_caudal_ayer.find(' m³/s')
+
+      # Extraer el número antes del texto
+      caudal_num = raw_caudal[:indice_caudal].strip()
+      caudal_ayer_num = raw_caudal_ayer[:indice_caudal_ayer].strip()
+
+      dif_caudal = int(caudal_num) - int(caudal_ayer_num)
+
+  return caudal, dif_caudal
 
 def obtener_ultimo_registro(df):
    # Ordena el DataFrame por la columna de fecha en orden descendente
@@ -314,14 +329,14 @@ def obtener_ultimo_registro(df):
   return time_ultimo_registro
 
 def calcular_kpis(df):
-  caudal_casa_piedra = obtener_caudal_casa_piedra()
+  caudal_casa_piedra = obtener_caudal_casa_piedra()[0]
   ultimo_registro = obtener_ultimo_registro(df)
   return [caudal_casa_piedra, ultimo_registro]
 
-def mostrar_kpis(kpis, kpi_names):
+def mostrar_kpis(kpis, kpi_names, kpis_dif):
     st.header("Parametros")
-    for i, (col, (kpi_name, kpi_value)) in enumerate(zip(st.columns(3), zip(kpi_names, kpis))):
-        col.metric(label=kpi_name, value=kpi_value)
+    for i, (col, (kpi_name, kpi_value, kpi_dif)) in enumerate(zip(st.columns(3), zip(kpi_names, kpis, kpis_dif))):
+        col.metric(label=kpi_name, value=kpi_value, delta=kpi_dif)
 
 
 def run():
@@ -356,8 +371,9 @@ def run():
   )
 
   kpis = calcular_kpis(df_riego)
+  kpis_dif = [f'{obtener_caudal_casa_piedra()[1]} m³/s respecto a ayer', '', '']
   kpi_names = ['Caudal Casa de Piedra', 'Ultimo registro']
-  mostrar_kpis(kpis, kpi_names)
+  mostrar_kpis(kpis, kpi_names, kpis_dif)
 
   st.divider()
 
