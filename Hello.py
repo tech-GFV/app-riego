@@ -366,7 +366,7 @@ def run():
   col1, col2, col3 = st.columns(3)
   with col1:
     st.download_button(
-    "Descargar riegos",
+    "⬇️ Descargar riegos",
     csv_riego,
     f"status_riego_{hoy}.csv",
     "text/csv",
@@ -374,7 +374,7 @@ def run():
     )
   with col2:
     st.download_button(
-    "Descargar raw data",
+    "⬇️ Descargar raw data",
     csv_kobo,
     f"raw_data_{hoy}.csv",
     "text/csv",
