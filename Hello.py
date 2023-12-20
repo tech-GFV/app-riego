@@ -358,17 +358,28 @@ def run():
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
 
-  csv = df_riego.to_csv().encode('utf-8')
+  csv_kobo = df_kobo.to_csv().encode('utf-8')
+  csv_riego = df_riego.to_csv().encode('utf-8')
 
   hoy = datetime.datetime.today()
 
-  st.download_button(
-    "Descargar csv",
-    csv,
+  col1, col2, col3 = st.columns(3)
+  with col1:
+    st.download_button(
+    "Descargar riegos",
+    csv_riego,
     f"status_riego_{hoy}.csv",
     "text/csv",
-    key='download-csv'
-  )
+    key='download-riegos'
+    )
+  with col2:
+    st.download_button(
+    "Descargar raw data",
+    csv_kobo,
+    f"raw_data_{hoy}.csv",
+    "text/csv",
+    key='download-raw-data'
+    )
 
   kpis = calcular_kpis(df_riego)
   kpis_dif = [f'{obtener_caudal_casa_piedra()[1]} m³/s respecto a ayer', '', '']
