@@ -9,10 +9,28 @@ import streamlit as st
 from streamlit.logger import get_logger
 import requests
 from lxml import html
+from streamlit_gsheets import GSheetsConnection
 
 LOGGER = get_logger(__name__)
 
 # Preprocesamiento------------------------------------------------------------------------
+def cargar_gsheet():
+  url = "https://docs.google.com/spreadsheets/d/1dWAiumAohQTBntAZ0AOB-1reX4GbJil6xUJiyOntecs/edit?usp=sharing"
+  conn = st.connection("gsheets", type=GSheetsConnection)
+  df = conn.read(spreadsheet=url)
+  df['Fecha'] = pd.to_datetime(df['Fecha'], dayfirst=True)
+  df['Fecha'] = df['Fecha'].dt.strftime('%Y-%m-%d %H:%M:%S.%f') + "-03:00"
+  df['Fecha'] = pd.to_datetime(df['Fecha'], dayfirst=True, format='%Y-%m-%d %H:%M:%S.%f%z')
+  df['ID'] = df['Lote']
+  df['time_ci'] = df['Fecha'] + pd.Timedelta(hours=1)
+  df['reg_ap'] = 'Admin'
+  df['reg_ci'] = 'Admin'
+  df['time_regado'] = df['time_ci'] - df['Fecha']
+  df.columns = ['ID_chacra','time_ap','ID', 'time_ci', 'reg_ap', 'reg_ci', 'time_regado']
+  orden_columnas = ['ID', 'ID_chacra','time_ap','time_ci','reg_ap','reg_ci','time_regado']
+  df = df[orden_columnas]
+  return df
+
 def cargar_kobo(TOKEN):
   kobo = KoboExtractor(TOKEN, 'https://eu.kobotoolbox.org/api/v2')
   #   Cargar KOBOTOOLBOX
@@ -49,9 +67,9 @@ def cargar_geometria():
   sn_shp = sn_shp.to_crs("WGS84")
   return sn_shp
 
-def crear_riegos(df):
-    df_apertura = df[df['Acci_n'] == "apertura"]
-    df_cierre = df[df['Acci_n'] == "cierre"]
+def crear_riegos(df_kobo, df_gsheet):
+    df_apertura = df_kobo[df_kobo['Acci_n'] == "apertura"]
+    df_cierre = df_kobo[df_kobo['Acci_n'] == "cierre"]
 
     merged_df = pd.merge(df_apertura, df_cierre, on='ID_chacra', suffixes=('_ap', '_ci'))
     filtered_df = merged_df[
@@ -66,6 +84,9 @@ def crear_riegos(df):
     df_riego_aux.columns = ['ID', 'ID_chacra', 'time_ap', 'time_ci', 'reg_ap', 'reg_ci']
     df_riego_aux['time_regado'] = df_riego_aux['time_ci'] - df_riego_aux['time_ap']
 
+    if not df_gsheet.empty:
+      df_riego_aux = pd.concat([df_riego_aux, df_gsheet])
+
     return df_riego_aux
 
 def unir_chacra_riego(df_riego_aux, df_chacra):
@@ -78,8 +99,6 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
   #Agregar semana de riego
   df_riego['fecha_ult_ejec'] = df_riego.time_ci.dt.date
   df_riego['sem_ejec'] = df_riego.time_ci.dt.isocalendar().week.astype('int')
-  #df_riego['text_sem'] = df_riego['ID'] + '<br>' + \
-  #                      'Semana: ' + str(df_riego['sem_ejec'])
   df_riego['superficie'] = df_riego['superficie'].apply(lambda x: float(x.replace(',', '.').replace('#N/D', '0')) if x else 0)
   return df_riego
 
@@ -355,7 +374,10 @@ def run():
   df_kobo = cargar_kobo(KOBO_TOKEN)
   df_chacras = cargar_chacras()
   sn_shp = cargar_geometria()
-  df_riego_pre = crear_riegos(df_kobo)
+  df_gsheet = cargar_gsheet()
+  print(df_gsheet)
+  df_riego_pre = crear_riegos(df_kobo, df_gsheet)
+  print(df_riego_pre)
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
 
