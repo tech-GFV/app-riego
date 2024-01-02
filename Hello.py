@@ -14,8 +14,9 @@ from streamlit_gsheets import GSheetsConnection
 LOGGER = get_logger(__name__)
 
 # Preprocesamiento------------------------------------------------------------------------
+@st.cache_data(ttl=60, max_entries=1)
 def cargar_gsheet():
-  url = "https://docs.google.com/spreadsheets/d/1dWAiumAohQTBntAZ0AOB-1reX4GbJil6xUJiyOntecs/edit?usp=sharing"
+  url = st.secrets.connections.gsheets.spreadsheet
   conn = st.connection("gsheets", type=GSheetsConnection)
   df = conn.read(spreadsheet=url)
   df['Fecha'] = pd.to_datetime(df['Fecha'], dayfirst=True)
@@ -99,6 +100,10 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
   #Agregar semana de riego
   df_riego['fecha_ult_ejec'] = df_riego.time_ci.dt.date
   df_riego['sem_ejec'] = df_riego.time_ci.dt.isocalendar().week.astype('int')
+  # Obtener el año y la semana de cada fecha
+  df_riego['year'] = df_riego['time_ci'].dt.year
+  # Calcular la semana acumulada ajustando para que la semana 35 sea la semana 1 del año
+  df_riego['sem_ejec'] = (df_riego['year'] - df_riego['year'].min()) * 52 + df_riego['sem_ejec'] - df_riego[df_riego['year'] == df_riego['year'].min()]['sem_ejec'].min() + 1
   df_riego['superficie'] = df_riego['superficie'].apply(lambda x: float(x.replace(',', '.').replace('#N/D', '0')) if x else 0)
   return df_riego
 
@@ -375,9 +380,7 @@ def run():
   df_chacras = cargar_chacras()
   sn_shp = cargar_geometria()
   df_gsheet = cargar_gsheet()
-  print(df_gsheet)
   df_riego_pre = crear_riegos(df_kobo, df_gsheet)
-  print(df_riego_pre)
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
 
@@ -427,7 +430,7 @@ def run():
   grafico_ciclos = mapa_ciclos(df_riego, sn_shp, seleccion_ciclo)
   st.plotly_chart(grafico_ciclos, use_container_width=True)
 
-  semana_actual = datetime.datetime.today().isocalendar().week
+  semana_actual = df_riego['sem_ejec'].max()
   st.subheader('Semana del ultimo riego ejecutado')
   st.text(f'Semana actual: {semana_actual}')
   tipos_semana = np.insert(df_riego['sem_ejec'].unique().astype(object), 0, "TODAS")
