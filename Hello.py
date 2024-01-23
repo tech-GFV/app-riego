@@ -336,8 +336,11 @@ def obtener_caudal_casa_piedra():
       caudal_num = raw_caudal[:indice_caudal].strip()
       caudal_ayer_num = raw_caudal_ayer[:indice_caudal_ayer].strip()
 
-      dif_caudal = int(caudal_num) - int(caudal_ayer_num)
-
+      try:
+        dif_caudal = int(caudal_num) - int(caudal_ayer_num)
+      except:
+         dif_caudal = 0
+         
   return caudal, dif_caudal
 
 def obtener_ultimo_registro(df):
