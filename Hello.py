@@ -68,7 +68,7 @@ def cargar_geometria():
   sn_shp = sn_shp.to_crs("WGS84")
   return sn_shp
 
-def crear_riegos(df_kobo, df_gsheet):
+def crear_riegos(df_kobo):
     df_apertura = df_kobo[df_kobo['Acci_n'] == "apertura"]
     df_cierre = df_kobo[df_kobo['Acci_n'] == "cierre"]
 
@@ -85,8 +85,8 @@ def crear_riegos(df_kobo, df_gsheet):
     df_riego_aux.columns = ['ID', 'ID_chacra', 'time_ap', 'time_ci', 'reg_ap', 'reg_ci']
     df_riego_aux['time_regado'] = df_riego_aux['time_ci'] - df_riego_aux['time_ap']
 
-    if not df_gsheet.empty:
-      df_riego_aux = pd.concat([df_riego_aux, df_gsheet])
+    #if not df_gsheet.empty:
+    #  df_riego_aux = pd.concat([df_riego_aux, df_gsheet])
 
     return df_riego_aux
 
@@ -224,6 +224,7 @@ def graficar_sup_semanal(df_riego):
 
 def graficar_riegos_por_regador(df_riego_pre):
   #Crear df de regadores apertura
+
   df_reg_ap = df_riego_pre.groupby('reg_ap')\
           .agg(cant_ap=('reg_ap', 'count'))\
         .reset_index()
@@ -299,7 +300,7 @@ def status_compuertas(df, df_chacra):
     estados_df['Tiempo_estado'] = estados_df['Tiempo_estado'].round(decimals=0)
     # Actualizar estado si tiempo transcurrido es mayor a 24 y estado es 'abierta'
     condicion = (estados_df['Tiempo_estado'] > 24) & (estados_df['estado'] == 'abierta')
-    estados_df.loc[condicion, 'estado'] = 's/ cierre'
+    estados_df.loc[condicion, 'estado'] = 'cerrada'
 
     return estados_df
 
@@ -382,13 +383,16 @@ def run():
   df_kobo = cargar_kobo(KOBO_TOKEN)
   df_chacras = cargar_chacras()
   sn_shp = cargar_geometria()
-  df_gsheet = cargar_gsheet()
-  df_riego_pre = crear_riegos(df_kobo, df_gsheet)
+  #df_gsheet = cargar_gsheet()
+  df_riego_pre = crear_riegos(df_kobo)
+  df_regadores = df_riego_pre.merge(df_chacras[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']], on='ID_chacra', how='left')
   df_riego = unir_chacra_riego(df_riego_pre, df_chacras)
   df_status_compuertas = status_compuertas(df_kobo, df_chacras)
 
   csv_kobo = df_kobo.to_csv().encode('utf-8')
   csv_riego = df_riego.to_csv().encode('utf-8')
+  csv_regadores = df_regadores.to_csv('regadores.csv')
+  print(csv_regadores)
 
   hoy = datetime.datetime.today()
 
