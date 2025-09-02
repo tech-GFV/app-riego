@@ -1,0 +1,178 @@
+,ID,ID_chacra,time_ap,time_ci,reg_ap,reg_ci,time_regado,ID_xls,SUPERFICIE,ACTIVIDAD
+0,Noroeste    3 8,Noroeste38,2025-08-20 00:20:22.170000-03:00,2025-08-20 08:10:48.099000-03:00,escobar_hernan,escobar_hernan,0 days 07:50:25.929000,Noreste38,"3,3",P. IMPLAN.
+1,Chacra Vieja1 2,ChacraVieja12,2025-08-20 13:47:43.493000-03:00,2025-08-20 18:30:41.342000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:42:57.849000,ChacraVieja12,1,P. MANT.
+2,Dos Molinos 1 6,DosMolinos16,2025-08-31 06:52:43.149000-03:00,2025-08-31 19:20:47.122000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 12:28:03.973000,DosMolinos16,"3,4",P. MANT.
+3,Chacra Vieja1 8,ChacraVieja18,2025-08-20 18:12:59.761000-03:00,2025-08-20 23:55:52.572000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 05:42:52.811000,ChacraVieja18,"1,2",P. MANT.
+4,Chacra Vieja1 1,ChacraVieja11,2025-08-20 18:33:21.105000-03:00,2025-08-21 00:06:11.830000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 05:32:50.725000,ChacraVieja11,1,P. MANT.
+5,Noroeste    3 11,Noroeste311,2025-08-20 22:11:32.262000-03:00,2025-08-21 08:08:34.303000-03:00,escobar_hernan,escobar_hernan,0 days 09:57:02.041000,Noreste311,"3,4",P. MANT.
+6,Chacra Vieja5 2,ChacraVieja52,2025-08-21 08:11:58.158000-03:00,2025-08-21 22:52:20.631000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 14:40:22.473000,ChacraVieja52,"3,4",P. IMPLAN.
+7,Chacra Vieja1 9,ChacraVieja19,2025-08-21 08:38:05.786000-03:00,2025-08-21 16:08:49.182000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 07:30:43.396000,ChacraVieja19,"1,1",P. MANT.
+8,Chacra Vieja1 10,ChacraVieja110,2025-08-21 08:39:35.920000-03:00,2025-08-21 11:39:36.289000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 03:00:00.369000,ChacraVieja110,"1,1",P. MANT.
+9,Chacra Vieja5 1,ChacraVieja51,2025-08-21 11:31:44.683000-03:00,2025-08-21 22:40:56.926000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 11:09:12.243000,ChacraVieja51,1,VERDEO DE SORGO
+10,Chacra Vieja5 3,ChacraVieja53,2025-08-21 11:32:51.179000-03:00,2025-08-21 18:24:16.016000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 06:51:24.837000,ChacraVieja53,"1,2",VERDEO DE SORGO
+11,Chacra Vieja5 5,ChacraVieja55,2025-08-21 11:34:05.708000-03:00,2025-08-21 19:18:32.607000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 07:44:26.899000,ChacraVieja55,"1,2",VERDEO DE SORGO
+12,Chacra Vieja1 11,ChacraVieja111,2025-08-21 11:42:08.866000-03:00,2025-08-21 22:20:51.658000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 10:38:42.792000,ChacraVieja111,"1,1",P. MANT.
+13,Dos Molinos 0 10,DosMolinos010,2025-08-21 11:47:21.490000-03:00,2025-08-21 23:02:48.701000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 11:15:27.211000,DosMolinos010,"1,2",P. MANT.
+14,Dos Molinos 0 18,DosMolinos018,2025-08-20 08:11:56.807000-03:00,2025-08-21 06:03:57.714000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 21:52:00.907000,DosMolinos018,"1,2",P. MANT.
+15,Dos Molinos 0 20,DosMolinos020,2025-08-20 08:13:18.618000-03:00,2025-08-21 00:33:01.615000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 16:19:42.997000,DosMolinos020,"1,2",P. MANT.
+16,Dos Molinos 0 21,DosMolinos021,2025-08-20 08:14:34.184000-03:00,2025-08-21 00:34:27.947000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 16:19:53.763000,DosMolinos021,"1,5",P. MANT.
+17,Dos Molinos 0 2,DosMolinos02,2025-08-20 11:12:18.327000-03:00,2025-08-21 00:15:51.209000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 13:03:32.882000,DosMolinos02,1,P. MANT.
+18,Chacra Vieja1 4,ChacraVieja14,2025-08-20 11:25:02.406000-03:00,2025-08-20 23:51:03.601000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 12:26:01.195000,ChacraVieja14,"1,2",P. MANT.
+19,Chacra Vieja1 6,ChacraVieja16,2025-08-20 11:27:02.347000-03:00,2025-08-20 18:11:09.090000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 06:44:06.743000,ChacraVieja16,"1,1",P. MANT.
+20,Chacra Vieja1 7,ChacraVieja17,2025-08-20 23:59:42.029000-03:00,2025-08-21 09:02:50.770000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 09:03:08.741000,ChacraVieja17,"1,2",P. MANT.
+21,Chacra Vieja1 5,ChacraVieja15,2025-08-21 00:01:00.462000-03:00,2025-08-21 08:32:03.147000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 08:31:02.685000,ChacraVieja15,"1,1",P. MANT.
+22,Dos Molinos 0 6,DosMolinos06,2025-08-21 00:20:22.714000-03:00,2025-08-21 22:59:36.890000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 22:39:14.176000,DosMolinos06,"1,2",P. MANT.
+23,Dos Molinos 0 8,DosMolinos08,2025-08-21 00:22:46.751000-03:00,2025-08-21 23:01:19.953000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 22:38:33.202000,DosMolinos08,"1,2",P. MANT.
+24,Dos Molinos 0 16,DosMolinos016,2025-08-21 00:26:46.999000-03:00,2025-08-21 11:49:48.528000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 11:23:01.529000,DosMolinos016,"1,2",P. MANT.
+25,Dos Molinos 0 12,DosMolinos012,2025-08-21 16:22:42.256000-03:00,2025-08-21 23:04:28.263000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 06:41:46.007000,DosMolinos012,"1,2",P. MANT.
+26,Chacra Vieja1 13,ChacraVieja113,2025-08-21 16:26:04.400000-03:00,2025-08-21 22:22:51.327000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 05:56:46.927000,ChacraVieja113,"1,1",P. MANT.
+27,Chacra Vieja1 19,ChacraVieja119,2025-08-21 22:12:59.046000-03:00,2025-08-22 04:59:26.363000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 06:46:27.317000,ChacraVieja119,"1,1",P. MANT.
+28,Chacra Vieja1 17,ChacraVieja117,2025-08-21 22:14:21.266000-03:00,2025-08-22 05:01:24.371000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 06:47:03.105000,ChacraVieja117,"1,2",P. MANT.
+29,Dos Molinos 0 3,DosMolinos03,2025-08-21 22:31:47.805000-03:00,2025-08-22 14:28:47.207000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 15:56:59.402000,DosMolinos03,"3,4",VERDEO DE SORGO
+30,Dos Molinos 0 17,DosMolinos017,2025-08-21 23:15:32.733000-03:00,2025-08-22 05:09:10.070000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 05:53:37.337000,DosMolinos017,"1,7",P. MANT.
+31,Chacra Vieja1 21,ChacraVieja121,2025-08-22 04:55:22.288000-03:00,2025-08-22 11:20:04.651000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 06:24:42.363000,ChacraVieja121,"1,2",P. MANT.
+32,Dos Molinos 0 15,DosMolinos015,2025-08-22 05:11:07.865000-03:00,2025-08-22 13:15:39.491000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 08:04:31.626000,DosMolinos015,"2,6",VERDEO DE SORGO
+33,Dos Molinos 0 13,DosMolinos013,2025-08-22 13:19:08.216000-03:00,2025-08-22 20:44:52.554000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 07:25:44.338000,DosMolinos013,"2,8",VERDEO DE SORGO
+34,Chacra Vieja5 11,ChacraVieja511,2025-08-22 13:34:05.932000-03:00,2025-08-22 16:12:38.248000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 02:38:32.316000,ChacraVieja511,"1,2",VERDEO DE SORGO
+35,Dos Molinos 0 11,DosMolinos011,2025-08-22 14:38:44.720000-03:00,2025-08-23 03:34:41.413000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 12:55:56.693000,DosMolinos011,"2,8",VERDEO DE SORGO
+36,Chacra Vieja5 12,ChacraVieja512,2025-08-22 16:08:28.589000-03:00,2025-08-23 07:57:48.256000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 15:49:19.667000,ChacraVieja512,"3,9",P. IMPLAN.
+37,Chacra Vieja5 12,ChacraVieja512,2025-08-22 16:08:28.589000-03:00,2025-08-23 02:32:09.325000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 10:23:40.736000,ChacraVieja512,"3,9",P. IMPLAN.
+38,Chacra Vieja5 8,ChacraVieja58,2025-08-21 18:37:05.993000-03:00,2025-08-22 09:03:52.160000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 14:26:46.167000,ChacraVieja58,"3,8",P. IMPLAN.
+39,Chacra Vieja5 10,ChacraVieja510,2025-08-22 08:31:16.560000-03:00,2025-08-22 20:14:26.181000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 11:43:09.621000,ChacraVieja510,"3,9",P. IMPLAN.
+40,Chacra Vieja5 13,ChacraVieja513,2025-08-22 08:41:10.669000-03:00,2025-08-22 13:36:36.562000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 04:55:25.893000,ChacraVieja513,"1,1",VERDEO DE SORGO
+41,Chacra Vieja5 7,ChacraVieja57,2025-08-22 08:48:23.976000-03:00,2025-08-22 16:15:51.028000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 07:27:27.052000,ChacraVieja57,"1,2",VERDEO DE SORGO
+42,Chacra Vieja1 25,ChacraVieja125,2025-08-22 11:16:07.958000-03:00,2025-08-22 19:24:12.152000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 08:08:04.194000,ChacraVieja125,"1,2",P. MANT.
+43,Chacra Vieja1 27,ChacraVieja127,2025-08-22 19:22:25.383000-03:00,2025-08-23 09:10:29.250000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 13:48:03.867000,ChacraVieja127,"1,2",P. MANT.
+44,Chacra Vieja1 29,ChacraVieja129,2025-08-22 19:33:30.314000-03:00,2025-08-23 09:12:26.881000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 13:38:56.567000,ChacraVieja129,"1,1",P. MANT.
+45,Dos Molinos 0 9,DosMolinos09,2025-08-22 19:41:37.942000-03:00,2025-08-23 03:52:13.498000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 08:10:35.556000,DosMolinos09,"2,9",VERDEO DE SORGO
+46,Chacra Vieja5 14,ChacraVieja514,2025-08-22 20:31:18.736000-03:00,2025-08-23 08:01:06.324000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 11:29:47.588000,ChacraVieja514,"3,8",P. IMPLAN.
+47,Noroeste    3 2,Noroeste32,2025-08-23 23:02:30.124000-03:00,2025-08-24 11:03:15.931000-03:00,nestor_gutierrez,nestor_gutierrez,0 days 12:00:45.807000,Noreste32,"2,2",P. MANT.
+48,Chacra Vieja5 15,ChacraVieja515,2025-08-23 02:42:17.643000-03:00,2025-08-23 19:14:20.712000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 16:32:03.069000,ChacraVieja515,"1,2",VERDEO DE SORGO
+49,Chacra Vieja5 16,ChacraVieja516,2025-08-23 02:44:06.149000-03:00,2025-08-23 19:10:47.722000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 16:26:41.573000,ChacraVieja516,4,P. IMPLAN.
+50,Chacra Vieja5 18,ChacraVieja518,2025-08-23 07:49:26.476000-03:00,2025-08-23 19:16:55.940000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 11:27:29.464000,ChacraVieja518,4,P. IMPLAN.
+51,Chacra Vieja5 20,ChacraVieja520,2025-08-23 19:19:06.093000-03:00,2025-08-24 06:13:47.250000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 10:54:41.157000,ChacraVieja520,"3,6",P. IMPLAN.
+52,Chacra Vieja5 22,ChacraVieja522,2025-08-23 19:21:08.605000-03:00,2025-08-24 06:11:47.048000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 10:50:38.443000,ChacraVieja522,"3,9",P. IMPLAN.
+53,Chacra Vieja5 24,ChacraVieja524,2025-08-23 19:23:38.518000-03:00,2025-08-24 13:59:36.128000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 18:35:57.610000,ChacraVieja524,"3,7",P. MANT.
+54,Chacra Vieja5 26,ChacraVieja526,2025-08-24 06:19:24.834000-03:00,2025-08-24 13:57:34.244000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 07:38:09.410000,ChacraVieja526,"3,8",P. MANT.
+55,Chacra Vieja5 17,ChacraVieja517,2025-08-24 06:31:29.743000-03:00,2025-08-24 13:44:25.305000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 07:12:55.562000,ChacraVieja517,"1,1",VERDEO DE SORGO
+56,Chacra Vieja5 19,ChacraVieja519,2025-08-24 06:32:58.855000-03:00,2025-08-24 13:42:39.783000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 07:09:40.928000,ChacraVieja519,1,VERDEO DE SORGO
+57,Chacra Vieja5 31,ChacraVieja531,2025-08-25 10:42:36.183000-03:00,2025-08-25 19:57:31.561000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 09:14:55.378000,ChacraVieja531,"3,6",P. IMPLAN.
+58,Chacra Vieja2 1,ChacraVieja21,2025-08-24 11:56:39.920000-03:00,2025-08-24 20:31:41.623000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 08:35:01.703000,ChacraVieja21,1,P. MANT.
+59,Chacra Vieja2 3,ChacraVieja23,2025-08-24 12:02:58.051000-03:00,2025-08-25 01:28:43.099000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 13:25:45.048000,ChacraVieja23,"1,2",P. MANT.
+60,Chacra Vieja2 5,ChacraVieja25,2025-08-24 12:27:38.162000-03:00,2025-08-25 07:44:56.046000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 19:17:17.884000,ChacraVieja25,"1,2",P. MANT.
+61,Acceso Norte2 42,AccesoNorte242,2025-08-24 12:55:19.941000-03:00,2025-08-24 20:18:50.744000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 07:23:30.803000,AccesoNorte242,"2,1",P. MANT.
+62,Acceso Norte2 44,AccesoNorte244,2025-08-24 13:16:23.104000-03:00,2025-08-24 20:12:04.056000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 06:55:40.952000,AccesoNorte244,"0,8",P. MANT.
+63,Chacra Vieja5 21,ChacraVieja521,2025-08-24 13:40:17.567000-03:00,2025-08-24 23:54:12.762000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 10:13:55.195000,ChacraVieja521,"3,7",P. IMPLAN.
+64,Chacra Vieja5 23,ChacraVieja523,2025-08-24 13:49:05.178000-03:00,2025-08-25 07:24:47.466000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 17:35:42.288000,ChacraVieja523,"3,6",P. IMPLAN.
+65,Chacra Vieja5 25,ChacraVieja525,2025-08-24 13:51:42.716000-03:00,2025-08-25 07:26:39.507000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 17:34:56.791000,ChacraVieja525,"3,6",P. IMPLAN.
+66,Acceso Norte2 36,AccesoNorte236,2025-08-24 17:18:11.292000-03:00,2025-08-25 11:41:17.625000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 18:23:06.333000,AccesoNorte236,"2,3",P. MANT.
+67,Acceso Norte2 38,AccesoNorte238,2025-08-24 20:21:29.684000-03:00,2025-08-25 09:43:26.819000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 13:21:57.135000,AccesoNorte238,"2,3",P. MANT.
+68,Acceso Norte2 34,AccesoNorte234,2025-08-24 20:25:09.943000-03:00,2025-08-25 11:39:55.074000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 15:14:45.131000,AccesoNorte234,"2,5",P. MANT.
+69,Chacra Vieja2 7,ChacraVieja27,2025-08-24 20:39:14.556000-03:00,2025-08-25 07:46:44.254000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 11:07:29.698000,ChacraVieja27,"1,2",P. MANT.
+70,Chacra Vieja5 27,ChacraVieja527,2025-08-25 01:07:16.333000-03:00,2025-08-25 10:46:39.324000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 09:39:22.991000,ChacraVieja527,"3,7",P. IMPLAN.
+71,Chacra Vieja2 12,ChacraVieja212,2025-08-25 07:14:33.707000-03:00,2025-08-25 15:17:37.682000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 08:03:03.975000,ChacraVieja212,"1,2",VERDEO DE SORGO
+72,Chacra Vieja5 29,ChacraVieja529,2025-08-25 07:31:42.889000-03:00,2025-08-25 17:39:33.275000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 10:07:50.386000,ChacraVieja529,"3,6",P. IMPLAN.
+73,Chacra Vieja2 9,ChacraVieja29,2025-08-25 07:49:14.229000-03:00,2025-08-25 17:12:39.015000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 09:23:24.786000,ChacraVieja29,"1,1",P. MANT.
+74,Acceso Norte2 32,AccesoNorte232,2025-08-25 11:50:36.293000-03:00,2025-08-26 04:36:33.023000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 16:45:56.730000,AccesoNorte232,"2,6",P. MANT.
+75,Acceso Norte2 30,AccesoNorte230,2025-08-25 11:52:13.788000-03:00,2025-08-26 04:36:15.504000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 16:44:01.716000,AccesoNorte230,"2,6",P. MANT.
+76,Chacra Vieja2 14,ChacraVieja214,2025-08-25 12:04:56.286000-03:00,2025-08-25 20:12:16.089000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 08:07:19.803000,ChacraVieja214,"1,2",VERDEO DE SORGO
+77,Chacra Vieja2 24,ChacraVieja224,2025-08-25 23:49:13.293000-03:00,2025-08-26 14:24:44.356000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 14:35:31.063000,ChacraVieja224,"1,2",VERDEO DE SORGO
+78,Acceso Norte2 26,AccesoNorte226,2025-08-26 04:41:13.521000-03:00,2025-08-26 12:07:28.418000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 07:26:14.897000,AccesoNorte226,"2,8",P. MANT.
+79,Chacra Vieja2 16,ChacraVieja216,2025-08-25 15:07:14.538000-03:00,2025-08-25 23:43:36.502000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 08:36:21.964000,ChacraVieja216,"1,2",VERDEO DE SORGO
+80,Chacra Vieja5 33,ChacraVieja533,2025-08-25 17:43:06.329000-03:00,2025-08-26 08:38:40.735000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 14:55:34.406000,ChacraVieja533,"3,7",P. IMPLAN.
+81,Chacra Vieja5 30,ChacraVieja530,2025-08-25 19:32:48.321000-03:00,2025-08-26 11:20:33.162000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 15:47:44.841000,ChacraVieja530,"3,9",P. MANT.
+82,Chacra Vieja5 32,ChacraVieja532,2025-08-25 19:35:08.602000-03:00,2025-08-26 05:44:25.611000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 10:09:17.009000,ChacraVieja532,"3,7",P. MANT.
+83,Chacra Vieja2 18,ChacraVieja218,2025-08-25 20:17:00.276000-03:00,2025-08-26 09:11:11.760000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 12:54:11.484000,ChacraVieja218,"1,2",VERDEO DE SORGO
+84,Chacra Vieja2 20,ChacraVieja220,2025-08-25 20:18:33.405000-03:00,2025-08-26 09:11:41.193000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 12:53:07.788000,ChacraVieja220,"1,2",VERDEO DE SORGO
+85,Chacra Vieja5 37,ChacraVieja537,2025-08-26 08:42:47.049000-03:00,2025-08-26 14:13:44.970000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 05:30:57.921000,ChacraVieja537,"3,6",P. IMPLAN.
+86,Chacra Vieja2 22,ChacraVieja222,2025-08-26 09:06:41.579000-03:00,2025-08-26 11:49:06.842000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 02:42:25.263000,ChacraVieja222,"1,2",VERDEO DE SORGO
+87,Chacra Vieja5 28,ChacraVieja528,2025-08-26 14:03:41.559000-03:00,2025-08-26 23:24:33.908000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 09:20:52.349000,ChacraVieja528,"3,8",P. MANT.
+88,Chacra Vieja2 23,ChacraVieja223,2025-08-26 14:26:10.984000-03:00,2025-08-26 19:27:11.931000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 05:01:00.947000,ChacraVieja223,"1,2",P. MANT.
+89,Chacra Vieja5 34,ChacraVieja534,2025-08-26 15:59:04.532000-03:00,2025-08-27 10:58:16.107000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 18:59:11.575000,ChacraVieja534,"3,8",P. MANT.
+90,Acceso Norte2 20,AccesoNorte220,2025-08-26 16:46:02.494000-03:00,2025-08-26 19:43:54.927000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 02:57:52.433000,AccesoNorte220,"3,1",P. MANT.
+91,Chacra Vieja2 25,ChacraVieja225,2025-08-26 19:21:25.853000-03:00,2025-08-27 10:14:36.696000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 14:53:10.843000,ChacraVieja225,"1,2",P. MANT.
+92,Chacra Vieja2 27,ChacraVieja227,2025-08-26 19:22:53.702000-03:00,2025-08-27 10:16:15.071000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 14:53:21.369000,ChacraVieja227,"1,2",P. MANT.
+93,Acceso Norte2 18,AccesoNorte218,2025-08-26 19:45:57.152000-03:00,2025-08-27 06:26:21.429000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 10:40:24.277000,AccesoNorte218,"3,4",P. MANT.
+94,Acceso Norte2 16,AccesoNorte216,2025-08-26 19:47:38.415000-03:00,2025-08-27 09:44:05.438000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 13:56:27.023000,AccesoNorte216,"3,2",P. MANT.
+95,Acceso Norte2 9,AccesoNorte29,2025-08-27 09:47:49.604000-03:00,2025-08-27 17:28:30.126000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 07:40:40.522000,AccesoNorte29,"3,5",MAIZ
+96,Chacra Vieja2 30,ChacraVieja230,2025-08-27 10:22:48.577000-03:00,2025-08-27 22:18:01.426000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 11:55:12.849000,ChacraVieja230,"1,2",VERDEO DE SORGO
+97,Acceso Norte2 7,AccesoNorte27,2025-08-27 11:20:10.154000-03:00,2025-08-27 21:32:40.186000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 10:12:30.032000,AccesoNorte27,"3,9",P. MANT.
+98,Chacra Vieja2 26,ChacraVieja226,2025-08-26 11:37:57.364000-03:00,2025-08-27 10:26:39.118000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 22:48:41.754000,ChacraVieja226,"1,2",VERDEO DE SORGO
+99,Acceso Norte2 24,AccesoNorte224,2025-08-26 12:02:07.889000-03:00,2025-08-27 06:16:11.722000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 18:14:03.833000,AccesoNorte224,3,P. MANT.
+100,Chacra Vieja5 36,ChacraVieja536,2025-08-26 23:36:32.010000-03:00,2025-08-27 14:18:18.958000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 14:41:46.948000,ChacraVieja536,"3,6",P. MANT.
+101,Acceso Norte2 11,AccesoNorte211,2025-08-27 06:30:21.677000-03:00,2025-08-27 09:40:21.906000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 03:10:00.229000,AccesoNorte211,"3,5",MAIZ
+102,Acceso Norte2 15,AccesoNorte215,2025-08-27 06:34:35.718000-03:00,2025-08-27 11:26:38.563000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 04:52:02.845000,AccesoNorte215,"3,2",MAIZ
+103,Chacra Vieja5 38,ChacraVieja538,2025-08-27 14:15:30.635000-03:00,2025-08-27 22:00:54.811000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 07:45:24.176000,ChacraVieja538,"3,7",P. MANT.
+104,Acceso Norte2 5,AccesoNorte25,2025-08-27 17:24:39.272000-03:00,2025-08-28 03:19:35.837000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 09:54:56.565000,AccesoNorte25,"3,8",P. MANT.
+105,Chacra Vieja2 34,ChacraVieja234,2025-08-27 18:00:57.646000-03:00,2025-08-28 03:59:34.590000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 09:58:36.944000,ChacraVieja234,"1,1",VERDEO DE SORGO
+106,Acceso Norte2 1,AccesoNorte21,2025-08-27 21:35:56.667000-03:00,2025-08-28 03:29:17.835000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 05:53:21.168000,AccesoNorte21,"3,9",P. MANT.
+107,Chacra Vieja5 40,ChacraVieja540,2025-08-27 22:03:35.735000-03:00,2025-08-28 09:30:43.998000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 11:27:08.263000,ChacraVieja540,"3,5",P. MANT.
+108,Chacra Vieja2 36,ChacraVieja236,2025-08-27 22:09:24.148000-03:00,2025-08-28 14:16:42.499000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 16:07:18.351000,ChacraVieja236,"1,2",VERDEO DE SORGO
+109,Chacra Vieja2 38,ChacraVieja238,2025-08-27 22:11:57.251000-03:00,2025-08-28 10:07:42.259000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 11:55:45.008000,ChacraVieja238,"1,1",VERDEO DE SORGO
+110,El Triangulo1 36,ElTriangulo136,2025-08-28 00:21:46.433000-03:00,2025-08-28 11:38:21.140000-03:00,escobar_hernan,escobar_hernan,0 days 11:16:34.707000,ElTriangulo136,"3,1",P. MANT.
+111,Acceso Norte2 3,AccesoNorte23,2025-08-28 03:21:32.696000-03:00,2025-08-28 05:57:02.204000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 02:35:29.508000,AccesoNorte23,"3,8",P. MANT.
+112,Acceso Norte2 2,AccesoNorte22,2025-08-28 03:31:25.272000-03:00,2025-08-28 10:33:54.321000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 07:02:29.049000,AccesoNorte22,"3,7",P. MANT.
+113,Chacra Vieja2 40,ChacraVieja240,2025-08-28 04:04:27.060000-03:00,2025-08-28 19:19:57.694000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 15:15:30.634000,ChacraVieja240,"1,1",VERDEO DE SORGO
+114,Acceso Norte2 4,AccesoNorte24,2025-08-28 06:01:31.724000-03:00,2025-08-28 10:31:46.900000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 04:30:15.176000,AccesoNorte24,"3,8",P. MANT.
+115,Chacra N7   1 49,ChacraN7149,2025-08-23 00:34:42.787000-03:00,2025-08-23 13:38:27.639000-03:00,rodriguez_benjamin,rodriguez_benjamin,0 days 13:03:44.852000,N7749,"3,6",ROLLO.ALF.MANT
+116,Chacra N7   1 54,ChacraN7154,2025-08-23 13:34:48.445000-03:00,2025-08-24 01:33:17.232000-03:00,rodriguez_benjamin,rodriguez_benjamin,0 days 11:58:28.787000,N7754,"3,6",ROLLO.ALF.MANT
+117,Chacra N7   1 58,ChacraN7158,2025-08-24 13:52:19.976000-03:00,2025-08-25 06:15:10.180000-03:00,rodriguez_benjamin,labrada_tomas,0 days 16:22:50.204000,N7758,"3,6",ROLLO.ALF.MANT
+118,El Triangulo1 44,ElTriangulo144,2025-08-28 11:05:24.902000-03:00,2025-08-28 22:59:07.976000-03:00,escobar_hernan,nestor_gutierrez,0 days 11:53:43.074000,ElTriangulo144,"2,9",P. MANT.
+119,Los Toros   5 2,LosToros52,2025-08-28 19:12:22.938000-03:00,2025-08-29 01:20:51.938000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 06:08:29,LosToros52,"3,4",#N/D
+120,Chacra Vieja2 39,ChacraVieja239,2025-08-28 19:21:14.570000-03:00,2025-08-29 11:34:28.213000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 16:13:13.643000,ChacraVieja239,"1,1",P. MANT.
+121,El Triangulo1 34,ElTriangulo134,2025-08-28 23:05:26.724000-03:00,2025-08-29 07:21:09.027000-03:00,nestor_gutierrez,nestor_gutierrez,0 days 08:15:42.303000,ElTriangulo134,"3,3",P. MANT.
+122,Noroeste    4 4,Noroeste44,2025-08-29 05:01:57.411000-03:00,2025-08-29 21:44:51.106000-03:00,nestor_gutierrez,escobar_hernan,0 days 16:42:53.695000,Noreste44,"3,3",P. MANT.
+123,El Triangulo1 40,ElTriangulo140,2025-08-29 07:29:48.960000-03:00,2025-08-30 00:03:13.893000-03:00,nestor_gutierrez,escobar_hernan,0 days 16:33:24.933000,ElTriangulo140,"4,1",P. MANT.
+124,Acceso Norte1 25,AccesoNorte125,2025-08-29 08:41:23.864000-03:00,2025-08-29 15:17:33.050000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 06:36:09.186000,AccesoNorte125,"2,8",MAIZ
+125,Los Toros   5 6,LosToros56,2025-08-29 09:38:20.833000-03:00,2025-08-29 19:28:19.508000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 09:49:58.675000,LosToros56,"3,7",#N/D
+126,Acceso Norte1 33,AccesoNorte133,2025-08-29 10:47:50.564000-03:00,2025-08-29 15:09:09.502000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 04:21:18.938000,AccesoNorte133,"2,3",MAIZ
+127,Chacra Vieja3 5,ChacraVieja35,2025-08-29 19:43:06.879000-03:00,2025-08-30 14:58:38.306000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 19:15:31.427000,ChacraVieja35,"1,2",VERDEO DE SORGO
+128,Chacra Vieja3 3,ChacraVieja33,2025-08-29 19:44:15.654000-03:00,2025-08-30 14:57:03.181000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 19:12:47.527000,ChacraVieja33,"1,2",VERDEO DE SORGO
+129,Chacra Vieja3 1,ChacraVieja31,2025-08-29 19:45:28.133000-03:00,2025-08-30 14:55:16.795000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 19:09:48.662000,ChacraVieja31,"1,1",VERDEO DE SORGO
+130,Acceso Norte1 19,AccesoNorte119,2025-08-29 20:13:14.889000-03:00,2025-08-30 18:20:17.047000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 22:07:02.158000,AccesoNorte119,"2,7",MAIZ
+131,Acceso Norte1 19,AccesoNorte119,2025-08-30 14:19:48.540000-03:00,2025-08-30 18:20:17.047000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:00:28.507000,AccesoNorte119,"2,7",MAIZ
+132,Acceso Norte1 11,AccesoNorte111,2025-08-29 20:15:52.766000-03:00,2025-08-30 18:22:28.295000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 22:06:35.529000,AccesoNorte111,"3,4",MAIZ
+133,Acceso Norte1 11,AccesoNorte111,2025-08-30 14:16:57.952000-03:00,2025-08-30 18:22:28.295000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:05:30.343000,AccesoNorte111,"3,4",MAIZ
+134,Acceso Norte1 9,AccesoNorte19,2025-08-29 20:20:23.873000-03:00,2025-08-30 18:23:27.671000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 22:03:03.798000,AccesoNorte19,"3,3",MAIZ
+135,Acceso Norte1 9,AccesoNorte19,2025-08-30 14:15:54.642000-03:00,2025-08-30 18:23:27.671000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:07:33.029000,AccesoNorte19,"3,3",MAIZ
+136,Acceso Norte 1 1,AccesoNorte11,2025-08-29 20:23:03.060000-03:00,2025-08-30 18:27:15.896000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 22:04:12.836000,AccesoNorte11,"3,6",MAIZ
+137,Acceso Norte 1 1,AccesoNorte11,2025-08-30 14:12:16.102000-03:00,2025-08-30 18:27:15.896000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:14:59.794000,AccesoNorte11,"3,6",MAIZ
+138,Noroeste    4 3,Noroeste43,2025-08-29 21:35:40.595000-03:00,2025-08-30 13:16:38.687000-03:00,escobar_hernan,escobar_hernan,0 days 15:40:58.092000,Noreste43,"2,6",P. MANT.
+139,El Triangulo1 38,ElTriangulo138,2025-08-29 23:59:06.043000-03:00,2025-08-30 13:46:21.955000-03:00,escobar_hernan,escobar_hernan,0 days 13:47:15.912000,ElTriangulo138,"3,4",P. MANT.
+140,Chacra N7   1 45,ChacraN7145,2025-08-28 00:42:32.260000-03:00,2025-08-28 23:10:18.501000-03:00,labrada_tomas,labrada_tomas,0 days 22:27:46.241000,N7745,"3,6",ROLLO.ALF.MANT
+141,Acceso Norte 1 3,AccesoNorte13,2025-08-30 14:12:30.831000-03:00,2025-08-30 18:26:17.997000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:13:47.166000,AccesoNorte13,"3,7",MAIZ
+142,Acceso Norte1 5,AccesoNorte15,2025-08-30 14:13:35.871000-03:00,2025-08-30 18:25:23.156000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:11:47.285000,AccesoNorte15,"3,7",MAIZ
+143,Acceso Norte1 7,AccesoNorte17,2025-08-30 14:14:41.689000-03:00,2025-08-30 18:24:26.025000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 04:09:44.336000,AccesoNorte17,"3,6",MAIZ
+144,Acceso Norte1 21,AccesoNorte121,2025-08-30 14:21:50.758000-03:00,2025-08-30 18:19:03.593000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 03:57:12.835000,AccesoNorte121,"2,6",MAIZ
+145,Acceso Norte1 27,AccesoNorte127,2025-08-30 14:24:40.707000-03:00,2025-08-30 18:17:04.723000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 03:52:24.016000,AccesoNorte127,"2,6",MAIZ
+146,Acceso Sur  3 4,AccesoSur34,2025-08-30 18:49:24.876000-03:00,2025-08-31 07:23:24.056000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 12:33:59.180000,AccesoSur34,"2,1",P. MANT.
+147,Acceso Sur  3 2,AccesoSur32,2025-08-30 18:51:16.480000-03:00,2025-08-31 07:25:04.956000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 12:33:48.476000,AccesoSur32,2,P. MANT.
+148,El Triangulo1 32,ElTriangulo132,2025-08-30 21:27:25.320000-03:00,2025-08-31 10:48:00.689000-03:00,escobar_hernan,escobar_hernan,0 days 13:20:35.369000,ElTriangulo132,"3,1",P. MANT.
+149,El Triangulo1 30,ElTriangulo130,2025-08-30 21:30:16.041000-03:00,2025-08-31 10:49:16.770000-03:00,escobar_hernan,escobar_hernan,0 days 13:19:00.729000,ElTriangulo130,"3,4",P. MANT.
+150,Acceso Sur  3 8,AccesoSur38,2025-08-31 07:19:15.797000-03:00,2025-09-01 00:45:00.121000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 17:25:44.324000,AccesoSur38,"2,3",P. MANT.
+151,Acceso Sur  3 3,AccesoSur33,2025-08-31 09:26:02.384000-03:00,2025-08-31 13:19:27.815000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 03:53:25.431000,AccesoSur33,"2,2",P. MANT.
+152,Acceso Sur  3 1,AccesoSur31,2025-08-31 09:27:44.837000-03:00,2025-09-01 00:36:14.997000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 15:08:30.160000,AccesoSur31,"1,9",P. MANT.
+153,Acceso Sur  3 9,AccesoSur39,2025-08-31 09:43:36.306000-03:00,2025-08-31 13:06:22.214000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 03:22:45.908000,AccesoSur39,"2,4",P. MANT.
+154,Acceso Sur  3 10,AccesoSur310,2025-08-31 13:10:24.814000-03:00,2025-08-31 18:10:54.815000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 05:00:30.001000,AccesoSur310,"2,3",P. MANT.
+155,Acceso Sur  3 12,AccesoSur312,2025-08-31 18:09:11.576000-03:00,2025-09-01 06:51:42.586000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 12:42:31.010000,AccesoSur312,"2,3",P. MANT.
+156,Acceso Sur  3 11,AccesoSur311,2025-08-31 18:13:50.146000-03:00,2025-09-01 13:50:56.957000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 19:37:06.811000,AccesoSur311,"2,5",P. MANT.
+157,Dos Molinos 1 4,DosMolinos14,2025-08-31 19:22:34.923000-03:00,2025-09-01 06:27:44.311000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 11:05:09.388000,DosMolinos14,"3,3",P. MANT.
+158,Dos Molinos 1 2,DosMolinos12,2025-08-31 19:24:22.784000-03:00,2025-09-01 17:17:49.685000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 21:53:26.901000,DosMolinos12,"4,1",P. MANT.
+159,Acceso Sur  3 14,AccesoSur314,2025-09-01 00:52:51.752000-03:00,2025-09-01 15:26:31.040000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 14:33:39.288000,AccesoSur314,"2,3",P. MANT.
+160,Dos Molinos 1 8,DosMolinos18,2025-09-01 06:24:00.118000-03:00,2025-09-01 18:17:37.647000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 11:53:37.529000,DosMolinos18,"2,8",P. MANT.
+161,Los Toros   5 1,LosToros51,2025-08-28 09:38:16.359000-03:00,2025-08-28 19:11:04.733000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 09:32:48.374000,LosToros51,"3,4",#N/D
+162,Acceso Norte2 8,AccesoNorte28,2025-08-28 10:26:08.583000-03:00,2025-08-29 00:04:51.363000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 13:38:42.780000,AccesoNorte28,4,P. MANT.
+163,Acceso Norte2 6,AccesoNorte26,2025-08-28 10:28:02.665000-03:00,2025-08-28 18:49:44.824000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 08:21:42.159000,AccesoNorte26,"3,7",P. MANT.
+164,Acceso Norte1 39,AccesoNorte139,2025-08-29 00:59:16.142000-03:00,2025-08-29 05:05:08.396000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 04:05:52.254000,AccesoNorte139,"2,3",MAIZ
+165,Acceso Norte1 37,AccesoNorte137,2025-08-29 05:06:45.943000-03:00,2025-08-29 08:48:53.713000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 03:42:07.770000,AccesoNorte137,"2,2",MAIZ
+166,Acceso Norte1 35,AccesoNorte135,2025-08-29 05:26:16.549000-03:00,2025-08-29 10:49:54.550000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 05:23:38.001000,AccesoNorte135,"2,2",MAIZ
+167,Acceso Norte1 31,AccesoNorte131,2025-08-29 15:12:40.814000-03:00,2025-08-29 20:04:44.652000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 04:52:03.838000,AccesoNorte131,"2,3",MAIZ
+168,Acceso Norte1 29,AccesoNorte129,2025-08-29 15:15:03.255000-03:00,2025-08-29 20:06:36.630000-03:00,burgos_fernando_emilio,garnica_teodor_crispin,0 days 04:51:33.375000,AccesoNorte129,"2,4",MAIZ
+169,El Triangulo1 28,ElTriangulo128,2025-09-01 15:23:30.850000-03:00,2025-09-02 01:56:43.660000-03:00,escobar_hernan,escobar_hernan,0 days 10:33:12.810000,ElTriangulo128,"3,3",P. MANT.
+170,Chacra Vieja3 2,ChacraVieja32,2025-09-01 15:01:32.016000-03:00,2025-09-01 23:37:28.759000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 08:35:56.743000,ChacraVieja32,1,VERDEO DE SORGO
+171,Chacra Vieja3 4,ChacraVieja34,2025-09-01 15:02:58.148000-03:00,2025-09-01 23:41:56.960000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 08:38:58.812000,ChacraVieja34,"1,1",VERDEO DE SORGO
+172,Chacra Vieja3 6,ChacraVieja36,2025-09-01 15:04:02.299000-03:00,2025-09-01 23:56:17.158000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 08:52:14.859000,ChacraVieja36,"1,1",VERDEO DE SORGO
+173,Acceso Sur  3 20,AccesoSur320,2025-09-01 15:31:30.743000-03:00,2025-09-02 09:48:26.619000-03:00,garnica_teodor_crispin,garnica_teodor_crispin,0 days 18:16:55.876000,AccesoSur320,"2,7",P. MANT.
+174,Dos Molinos 1 7,DosMolinos17,2025-09-01 18:20:00.693000-03:00,2025-09-02 05:55:09.999000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 11:35:09.306000,DosMolinos17,"4,7",P. MANT.
+175,Dos Molinos 1 5,DosMolinos15,2025-09-01 18:22:03.153000-03:00,2025-09-02 05:57:09.920000-03:00,garnica_teodor_crispin,burgos_fernando_emilio,0 days 11:35:06.767000,DosMolinos15,"3,1",P. MANT.
+176,Chacra Vieja3 8,ChacraVieja38,2025-09-01 23:51:46.878000-03:00,2025-09-02 06:50:52.061000-03:00,burgos_fernando_emilio,burgos_fernando_emilio,0 days 06:59:05.183000,ChacraVieja38,"1,1",VERDEO DE SORGO

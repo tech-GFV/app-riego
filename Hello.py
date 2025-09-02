@@ -49,7 +49,7 @@ def cargar_kobo(TOKEN):
   #   Convertir timestamp a dateformat
   df_kobo['end'] = pd.to_datetime(df_kobo['end'])
   #   Eliminar registros anteriores al inicio de campaña 30/08/23
-  df_kobo = df_kobo.loc[(df_kobo['end'] >= '2023-08-30')]
+  df_kobo = df_kobo.loc[(df_kobo['end'] >= '2025-08-18')]
   return df_kobo
 
 def cargar_chacras():
@@ -432,7 +432,8 @@ def run():
   st.header('Mapas')
 
   st.subheader('Cantidad de ciclos de riego ejecutados')
-  tipos_ciclo = np.insert(df_riego['ciclos'].unique().astype(object), 0, "TODOS")
+  ciclos = sorted(df_riego['ciclos'].dropna().unique().astype(int).tolist())
+  tipos_ciclo = ["TODAS"] + ciclos
   seleccion_ciclo = st.selectbox('Seleccione la cantidad de ciclos', tipos_ciclo)
   grafico_ciclos = mapa_ciclos(df_riego, sn_shp, seleccion_ciclo)
   st.plotly_chart(grafico_ciclos, use_container_width=True)
@@ -440,7 +441,8 @@ def run():
   semana_actual = df_riego['sem_ejec'].max()
   st.subheader('Semana del ultimo riego ejecutado')
   st.text(f'Semana actual: {semana_actual}')
-  tipos_semana = np.insert(df_riego['sem_ejec'].unique().astype(object), 0, "TODAS")
+  semanas = sorted(df_riego['sem_ejec'].dropna().unique().astype(int).tolist())
+  tipos_semana = ["TODAS"] + semanas
   seleccion_semana = st.selectbox('Seleccione una semana', tipos_semana)
   grafico_sem_riego = mapa_sem_riego(df_riego, sn_shp, seleccion_semana)
   st.plotly_chart(grafico_sem_riego, use_container_width=True)
