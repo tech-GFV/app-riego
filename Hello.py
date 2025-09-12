@@ -91,21 +91,41 @@ def crear_riegos(df_kobo):
     return df_riego_aux
 
 def unir_chacra_riego(df_riego_aux, df_chacra):
-  #Agregar atributos de chacras a df_riego_aux
-  df_riego = df_riego_aux.merge(df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD', 'ID_CAMPAÑA']], on='ID_chacra', how='left')
-  #Agrupar df agregando columnas de ciclos y t_riego_prom
-  df_riego = df_riego.groupby('ID_chacra') \
-        .agg(ciclos=('ID_chacra', 'count'), t_riego_prom=('time_regado', 'mean'), superficie=('SUPERFICIE', 'first'), actividad=('ACTIVIDAD', 'first'), time_ci=('time_ci', 'last'), ID=('ID', 'first'), ID_xls=('ID_xls', 'first'), ID_campaña=('ID_CAMPAÑA', 'first')) \
-        .reset_index()
-  #Agregar semana de riego
-  df_riego['fecha_ult_ejec'] = df_riego.time_ci.dt.date
-  df_riego['sem_ejec'] = df_riego.time_ci.dt.isocalendar().week.astype('int')
-  # Obtener el año y la semana de cada fecha
-  df_riego['year'] = df_riego['time_ci'].dt.year
-  # Calcular la semana acumulada ajustando para que la semana 35 sea la semana 1 del año
-  df_riego['sem_ejec'] = (df_riego['year'] - df_riego['year'].min()) * 52 + df_riego['sem_ejec'] - df_riego[df_riego['year'] == df_riego['year'].min()]['sem_ejec'].min() + 1
-  df_riego['superficie'] = df_riego['superficie'].apply(lambda x: float(x.replace(',', '.').replace('#N/D', '0')) if x else 0)
-  return df_riego
+    # Resumir riegos por chacra
+    agg_riego = (
+        df_riego_aux.groupby('ID_chacra', as_index=False)
+        .agg(
+            ciclos=('ID_chacra', 'count'),
+            t_riego_prom=('time_regado', 'mean'),
+            time_ci=('time_ci', 'last'),
+            ID=('ID', 'first')
+        )
+    )
+
+    # Partir de df_chacra y unir info de riegos (LEFT para mantener chacras sin riego)
+    df_riego = df_chacra[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD', 'ID_CAMPAÑA']] \
+        .merge(agg_riego, on='ID_chacra', how='left') \
+        .rename(columns={'SUPERFICIE':'superficie','ACTIVIDAD':'actividad','ID_CAMPAÑA':'ID_campaña'})
+
+    # Agregar semana de riego (solo si hay time_ci)
+    df_riego['fecha_ult_ejec'] = df_riego['time_ci'].dt.date
+    df_riego['sem_ejec'] = df_riego['time_ci'].dt.isocalendar().week.astype('Int64')
+    df_riego['year'] = df_riego['time_ci'].dt.year
+    if df_riego['year'].notna().any():
+        min_year = df_riego['year'].min()
+        base_sem = df_riego.loc[df_riego['year'] == min_year, 'sem_ejec'].min()
+        df_riego['sem_ejec'] = ((df_riego['year'] - min_year) * 52 + df_riego['sem_ejec'] - base_sem + 1).astype('Int64')
+
+    # Normalizar superficie
+    df_riego['superficie'] = df_riego['superficie'].apply(
+        lambda x: float(str(x).replace(',', '.').replace('#N/D', '0')) if x is not None else 0
+    )
+
+    # --- Lo que pediste: poner en 0 los que no tengan ciclo ni sem_ejec ---
+    df_riego['ciclos'] = df_riego['ciclos'].fillna(0).astype(int)
+    df_riego['sem_ejec'] = df_riego['sem_ejec'].fillna(0).astype(int)
+
+    return df_riego
 
 # Mapas----------------------------------------------------------------------------------
 def mapa_status_compuertas(df_riego, sn_shp):
@@ -220,6 +240,9 @@ def graficar_sup_semanal(df_riego):
   #Graficar
   fig_sup_semanal = px.line(df_sup_semanal, x="sem_ejec", y="sup_regada", text="sup_regada", width=900, height=500)
   fig_sup_semanal.update_traces(textposition="top center")
+  fig_sup_semanal.update_layout(xaxis_title='Semana de riego', yaxis_title='Superficie regada [Ha]', showlegend=False)
+  fig_sup_semanal.update_yaxes(range=[0, 1000])
+  fig_sup_semanal.update_xaxes(range=[1, None])
   return fig_sup_semanal
 
 def graficar_riegos_por_regador(df_riego_pre):
@@ -391,8 +414,8 @@ def run():
 
   csv_kobo = df_kobo.to_csv().encode('utf-8')
   csv_riego = df_riego.to_csv().encode('utf-8')
-  csv_regadores = df_regadores.to_csv('regadores.csv')
-  print(csv_regadores)
+  #csv_regadores = df_regadores.to_csv('regadores.csv')
+  #print(csv_regadores)
 
   hoy = datetime.datetime.today()
 
