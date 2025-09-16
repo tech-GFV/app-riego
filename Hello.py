@@ -18,30 +18,52 @@ LOGGER = get_logger(__name__)
 # =============================================================================
 
 @st.cache_data(ttl=60, max_entries=1)
-def cargar_gsheet():
+def cargar_appsheet():
     """
-    Lee una planilla de Google Sheets (definida en secrets) y devuelve un DataFrame
-    normalizado para que se parezca a los riegos de Kobo (apertura/cierre sintéticos).
+    Lee la tabla base (AppSheet -> Google Sheets) y devuelve un DF con el
+    MISMO esquema que 'cargar_kobo' generaba:
+      - ID_chacra  (desde 'Compuerta', sin espacios)
+      - ID         (ID del evento)
+      - Acci_n     ('apertura' / 'cierre')
+      - end        (timestamp del evento)
+      - _submitted_by (usuario que registró)
     """
-    url = st.secrets.connections.gsheets.spreadsheet
+    # 1) Conexión a la hoja que usa AppSheet
     conn = st.connection("gsheets", type=GSheetsConnection)
-    df = conn.read(spreadsheet=url)
+    url = st.secrets.connections.appsheet.spreadsheet
 
-    # Normalización de fechas (timezone -03:00) y columnas
-    df['Fecha'] = pd.to_datetime(df['Fecha'], dayfirst=True)
-    df['Fecha'] = df['Fecha'].dt.strftime('%Y-%m-%d %H:%M:%S.%f') + "-03:00"
-    df['Fecha'] = pd.to_datetime(df['Fecha'], dayfirst=True, format='%Y-%m-%d %H:%M:%S.%f%z')
+    # Si necesitás una pestaña específica:
+    worksheet_registros = st.secrets.connections.appsheet.get("Registros", None)
+    df = conn.read(spreadsheet=url, worksheet=worksheet_registros)
 
-    df['ID'] = df['Lote']
-    df['time_ci'] = df['Fecha'] + pd.Timedelta(hours=1)
-    df['reg_ap'] = 'Admin'
-    df['reg_ci'] = 'Admin'
-    df['time_regado'] = df['time_ci'] - df['Fecha']
+    # 2) Normalización de columnas desde AppSheet
+    # Esperado en la hoja (según captura): ID | Fecha y hora | Compuerta | Acción | Usuario
+    df = df.rename(columns={
+        "Fecha y hora": "end",
+        "Compuerta": "ID_chacra",
+        "Acción": "Acci_n",
+        "Usuario": "_submitted_by",
+    })
 
-    # Renombrado para alinear con el resto del flujo
-    df.columns = ['ID_chacra', 'time_ap', 'ID', 'time_ci', 'reg_ap', 'reg_ci', 'time_regado']
-    columnas = ['ID', 'ID_chacra', 'time_ap', 'time_ci', 'reg_ap', 'reg_ci', 'time_regado']
-    df = df[columnas]
+    # 3) Tipos y limpieza
+    df['end'] = pd.to_datetime(df['end'], dayfirst=True, errors='coerce')
+    df['ID_chacra'] = df['ID_chacra'].astype(str).str.replace(' ', '', regex=False)
+
+    # Mapear valores de AppSheet a los que usabas con Kobo
+    # (Kobo: 'apertura'/'cierre'; AppSheet: 'ABRIR'/'CERRAR')
+    df['Acci_n'] = (
+        df['Acci_n']
+        .astype(str).str.strip().str.upper()
+        .map({"ABRIR": "apertura", "CERRAR": "cierre"})
+        .fillna("cierre")  # fallback conservador
+    )
+
+    # 4) Filtro de inicio de campaña (idéntico a tu función Kobo)
+    df = df.loc[df['end'] >= '2025-08-18']
+
+    # 5) Selección de columnas (las que tu flujo usa más adelante)
+    df = df[['ID_chacra', 'ID', 'Acci_n', 'end', '_submitted_by']].copy()
+
     return df
 
 
@@ -378,7 +400,7 @@ def mapa_ciclos(df_riego, sn_shp, ciclos):
     Choropleth por cantidad de ciclos (con selector para resaltar un valor).
     """
     df_aux = df_riego.copy()
-    if ciclos != "TODOS":
+    if ciclos != "TODAS":
         df_aux['ciclos'] = df_aux['ciclos'].apply(lambda x: x if x == ciclos else 0)
 
     fig = px.choropleth(
@@ -640,6 +662,7 @@ def run():
     # --- Carga de datos principales ---
     KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
     df_kobo = cargar_kobo(KOBO_TOKEN)
+    #df_kobo = cargar_appsheet() #APPSHEET
     df_chacras = cargar_chacras()
     sn_shp = cargar_geometria()
     # df_gsheet = cargar_gsheet()  # opcional
