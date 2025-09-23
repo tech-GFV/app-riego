@@ -70,7 +70,6 @@ def cargar_appsheet():
 def cargar_kobo(token):
     """
     Descarga y normaliza los datos de KoboToolbox.
-    - Filtra registros anteriores a '2025-08-18' (inicio campaña dado).
     """
     kobo = KoboExtractor(token, 'https://eu.kobotoolbox.org/api/v2')
     form_id = 'aM693SUegTpTjVKobB7d2h'
@@ -91,8 +90,6 @@ def cargar_kobo(token):
 
     df_kobo['end'] = pd.to_datetime(df_kobo['end'])
 
-    # Inicio de campaña (no modificar para mantener el mismo resultado)
-    df_kobo = df_kobo.loc[(df_kobo['end'] >= '2025-08-18')]
     return df_kobo
 
 
@@ -209,6 +206,30 @@ def unir_chacra_riego(df_riego_aux, df_chacra):
 # Helpers de formato / estructuras temporales
 # =============================================================================
 
+def ui_filtrar_por_fecha(df, col_fecha='end', etiqueta='Rango de fechas'):
+    """
+    (Versión anterior, ahora no se usa en run; la dejamos por si la querés reutilizar)
+    """
+    fechas = pd.to_datetime(df[col_fecha], errors='coerce')
+    if fechas.notna().any():
+        min_d = fechas.min().date()
+        max_d = fechas.max().date()
+    else:
+        min_d = max_d = date.today()
+
+    desde, hasta = st.date_input(
+        etiqueta,
+        value=(min_d, max_d),
+        key='filtro_fechas'
+    )
+    if isinstance(desde, tuple):
+        desde, hasta = desde
+
+    mask = (fechas.dt.date >= desde) & (fechas.dt.date <= hasta)
+    df_filtrado = df.loc[mask].copy()
+    return df_filtrado, desde, hasta
+
+
 def _parse_superficie(x):
     """Normaliza superficie a float, contemplando coma decimal y '#N/D'."""
     s = str(x)
@@ -217,14 +238,21 @@ def _parse_superficie(x):
     return float(s.replace(',', '.'))
 
 
+def _rango_default(df, col='end'):
+    """Devuelve (desde, hasta) por defecto a partir de los datos."""
+    fechas = pd.to_datetime(df[col], errors='coerce')
+    if fechas.notna().any():
+        return fechas.min().date(), fechas.max().date()
+    hoy = date.today()
+    return hoy, hoy
+
+
 def construir_sup_semanal(df_riego_pre, df_chacras, unique_per_week=True):
     """
     Construye un DF semanal con:
       - semana_monday (fecha del lunes ISO),
       - semana_label ('YYYY-Www'),
       - sup_regada (Ha).
-    Suma la superficie de chacras que tuvieron al menos un riego esa semana.
-    Si unique_per_week=True, una chacra cuenta 1 vez por semana, aunque tenga múltiples riegos.
     """
     # Eventos con cierre + semana ISO
     df = df_riego_pre[['ID_chacra', 'time_ci']].dropna().copy()
@@ -269,11 +297,7 @@ def construir_sup_semanal(df_riego_pre, df_chacras, unique_per_week=True):
 
 def construir_ultima_semana_por_chacra(df_riego_pre, df_chacras):
     """
-    Para cada chacra, identifica:
-      - last_time_ci (último cierre),
-      - last_semana_monday (lunes ISO),
-      - last_semana_label ('YYYY-Www' o 'Nunca'),
-      - has_riego (1 si regó alguna vez).
+    Para cada chacra: último cierre, lunes ISO, label y flag de riego.
     """
     ev = df_riego_pre[['ID_chacra', 'time_ci']].dropna().copy()
     ev['time_ci'] = pd.to_datetime(ev['time_ci'])
@@ -400,7 +424,7 @@ def mapa_ciclos(df_riego, sn_shp, ciclos):
     Choropleth por cantidad de ciclos (con selector para resaltar un valor).
     """
     df_aux = df_riego.copy()
-    if ciclos != "TODAS":
+    if ciclos != "TODOS":
         df_aux['ciclos'] = df_aux['ciclos'].apply(lambda x: x if x == ciclos else 0)
 
     fig = px.choropleth(
@@ -484,8 +508,6 @@ def graficar_sup_semanal(sup_semanal_df):
         showlegend=False,
         margin=dict(t=40, l=40, r=20, b=40)
     )
-    # Para eje Y fijo, descomentar:
-    # fig.update_yaxes(range=[0, 1000])
     return fig
 
 
@@ -662,12 +684,47 @@ def run():
     # --- Carga de datos principales ---
     KOBO_TOKEN = 'c7e3cb8f6ae27f4e35148c5e529e473491bfa373'
     df_kobo = cargar_kobo(KOBO_TOKEN)
-    #df_kobo = cargar_appsheet() #APPSHEET
-    df_chacras = cargar_chacras()
-    sn_shp = cargar_geometria()
+    # df_kobo = cargar_appsheet()  # ← si querés usar AppSheet, descomentá esta y comentá la de Kobo
+
+    # --- FILTRO DE FECHAS (SIDEBAR + FORM, solo aplica al confirmar) ---
+    default_desde, default_hasta = _rango_default(df_kobo, col='end')
+
+    with st.sidebar.form("filtro_fechas"):
+        st.subheader("Filtrar por fechas")
+        desde = st.date_input("Desde", value=st.session_state.get("f_desde", default_desde), key="in_desde")
+        hasta = st.date_input("Hasta", value=st.session_state.get("f_hasta", default_hasta), key="in_hasta")
+        aplicar = st.form_submit_button("Aplicar")
+
+    if aplicar:
+        if desde > hasta:
+            desde, hasta = hasta, desde
+        st.session_state["f_desde"] = desde
+        st.session_state["f_hasta"] = hasta
+
+    # Rango activo (persistente entre reruns)
+    r_desde = st.session_state.get("f_desde", default_desde)
+    r_hasta = st.session_state.get("f_hasta", default_hasta)
+
+    # Aplicar filtro al DF base (todo lo demás hereda el filtro)
+    fechas = pd.to_datetime(df_kobo['end'], errors='coerce')
+    mask = (fechas.dt.date >= r_desde) & (fechas.dt.date <= r_hasta)
+    df_kobo = df_kobo.loc[mask].copy()
+
+    st.caption(f"Mostrando datos entre {r_desde.strftime('%d/%m/%Y')} y {r_hasta.strftime('%d/%m/%Y')}")
+
+    # (Opcional) Botón para restablecer rango en la sidebar
+    with st.sidebar:
+        if st.button("Restablecer rango"):
+            st.session_state.pop("f_desde", None)
+            st.session_state.pop("f_hasta", None)
+            st.rerun()
+
     # df_gsheet = cargar_gsheet()  # opcional
 
     # Construcciones derivadas
+    df_chacras = cargar_chacras()
+    sn_shp = cargar_geometria()
+
     df_riego_pre = crear_riegos(df_kobo)
     df_regadores = df_riego_pre.merge(
         df_chacras[['ID_chacra', 'ID_xls', 'SUPERFICIE', 'ACTIVIDAD']],
