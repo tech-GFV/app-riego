@@ -45,8 +45,6 @@ def cargar_datos_completos():
 
 
 def main():
-    # Configuración de página
-    st.set_page_config(page_title="Dashboard de Riego", page_icon="💧", layout="wide")
     
     st.title("💧 APP de Riego - Santa Nicolasa")
     st.markdown("---")
