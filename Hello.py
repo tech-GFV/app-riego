@@ -20,7 +20,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-
 @st.cache_data(ttl=3600)
 def cargar_datos_completos():
     """Carga todos los datos necesarios."""
@@ -45,7 +44,6 @@ def cargar_datos_completos():
 
 
 def main():
-    
     st.title("💧 APP de Riego - Santa Nicolasa")
     st.markdown("---")
 
