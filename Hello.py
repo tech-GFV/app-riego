@@ -155,7 +155,7 @@ def main():
                 fig_mapa_semana.update_geos(fitbounds="geojson", visible=False)
                 fig_mapa_semana.update_layout(
                     margin=dict(l=0, r=0, t=0, b=0),
-                    height=500
+                    autosize=True
                 )
                 
                 st.plotly_chart(fig_mapa_semana, use_container_width=True)
