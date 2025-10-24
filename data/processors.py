@@ -30,6 +30,7 @@ def crear_riegos(df):
                       geometria = group.loc[j, 'geometry']
                       superficie_has = group.loc[j, 'Has']
                       id_simple = group.loc[j, 'ID_SIMPLE']
+                      lote_albor = group.loc[j, 'lote_albor']
                       if cierre_timestamp - apertura_timestamp <= timedelta(hours=24):
                           riegos.append({
                               'id_riego': chacra,
@@ -41,6 +42,7 @@ def crear_riegos(df):
                               'geometria': geometria,
                               'superficie_has': superficie_has,
                               'id_simple': id_simple,
+                              'lote_albor': lote_albor,
                           })
                           cierre_encontrado = True
                           i = j + 1
@@ -115,3 +117,40 @@ def crear_resumen_riegos(df):
   df_resumen['dias_desde_ultimo_riego'] = (pd.to_datetime('now') - df_resumen['dia_ultimo_riego']).dt.days
 
   return df_resumen
+
+def expandir_planificacion_con_chacras(df_planificacion, df_chacras):
+  """
+  Expande la planificación de riego uniendo con chacras.
+
+  Cada fila de planificación (semana + lote_albor) se expande a múltiples filas,
+  una por cada chacra que pertenece a ese lote_albor.
+  """
+  # Validar que los dataframes tengan datos
+  if df_planificacion.empty or df_chacras.empty:
+      return pd.DataFrame(columns=[
+          'semana_lunes', 'lote_albor', 'id_riego', 'id_simple',
+          'superficie_has', 'geometria'
+      ])
+
+  # Unir planificación con chacras por lote_albor
+  # Esto crea una fila por cada combinación de (semana, lote_albor, chacra)
+  df_planificacion_expandida = pd.merge(
+      df_planificacion,
+      df_chacras[['id_riego', 'lote_albor', 'geometry', 'Has', 'ID_SIMPLE']],
+      on='lote_albor',
+      how='inner'  # Solo mantener lotes que existen en ambos dataframes
+  )
+
+  # Renombrar columnas para consistencia con otros dataframes
+  df_planificacion_expandida = df_planificacion_expandida.rename(columns={
+      'geometry': 'geometria',
+      'Has': 'superficie_has',
+      'ID_SIMPLE': 'id_simple'
+  })
+
+  # Ordenar por semana y lote
+  df_planificacion_expandida = df_planificacion_expandida.sort_values(
+      ['semana_lunes', 'lote_albor', 'id_riego']
+  ).reset_index(drop=True)
+
+  return df_planificacion_expandida

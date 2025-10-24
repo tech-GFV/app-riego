@@ -5,6 +5,8 @@ import pandas as pd
 import geopandas as gpd
 import datetime
 from koboextractor import KoboExtractor
+import streamlit as st
+from streamlit_gsheets import GSheetsConnection
 
 
 def cargar_datos_kobo(kobo_token, form_id):
@@ -29,12 +31,14 @@ def cargar_chacras(path):
     Lee el shapefile de parcelas, normaliza el ID y re-proyecta a WGS84.
     """
     gdf = gpd.read_file(path)
-    gdf = gdf[['id_riego', 'Has', 'ID_SIMPLE', 'geometry']]
+    gdf = gdf[['id_riego', 'Has', 'ID_SIMPLE', 'geometry', 'Lote_2', '25-26 V']]
     gdf = gdf.set_geometry('geometry')
     #gdf = gdf.rename_geometry('geometry')
     gdf['id_riego'] = gdf['id_riego'].str.strip()
+    #renombrar Lote_2 a lote_albor
+    gdf = gdf.rename(columns={'Lote_2': 'lote_albor'})
     gdf = gdf.to_crs("WGS84")
-    print(gdf)
+
     
     return gdf
 
@@ -86,3 +90,57 @@ def cargar_caudales_cdp(url):
     df = df[['fecha', 'caudal']]
 
     return df
+
+
+def cargar_planificacion_riego(spreadsheet_url):
+    """
+    Lee los datos de planificación de riego desde Google Sheets usando streamlit-gsheets.
+    """
+    try:
+
+        # Crear conexión con Google Sheets
+        conn = st.connection("gsheets", type=GSheetsConnection)
+
+        # Leer las dos primeras columnas (Semana (lunes) y Lote Albor)
+        # Intenta primero sin especificar sheet
+        try:
+            df = conn.read(spreadsheet=spreadsheet_url, usecols=[0, 1])
+        except:
+            # Si falla, intenta con sheet="Planificacion"
+            df = conn.read(spreadsheet=spreadsheet_url, sheet="Planificacion", usecols=[0, 1])
+
+        # Renombrar columnas esperadas
+        # Asumiendo que las columnas son "Semana (lunes)" y "Lote Albor"
+        if 'Semana (lunes)' in df.columns:
+            df = df.rename(columns={'Semana (lunes)': 'semana_lunes'})
+        elif len(df.columns) >= 1:
+            # Si no tiene el nombre esperado, usar la primera columna
+            df = df.rename(columns={df.columns[0]: 'semana_lunes'})
+
+        if 'Lote Albor' in df.columns:
+            df = df.rename(columns={'Lote Albor': 'lote_albor'})
+        elif len(df.columns) >= 2:
+            # Si no tiene el nombre esperado, usar la segunda columna
+            df = df.rename(columns={df.columns[1]: 'lote_albor'})
+
+        # Convertir la columna de semana a fecha
+        if 'semana_lunes' in df.columns:
+            # Intentar diferentes formatos de fecha
+            df['semana_lunes'] = pd.to_datetime(df['semana_lunes'], errors='coerce', dayfirst=True)
+            df['semana_lunes'] = df['semana_lunes'].dt.date
+
+        # Eliminar filas con valores nulos en semana_lunes o lote_albor
+        df = df.dropna(subset=['semana_lunes', 'lote_albor'])
+
+        # Limpiar espacios en blanco en lote_albor
+        if 'lote_albor' in df.columns:
+            df['lote_albor'] = df['lote_albor'].astype(str).str.strip()
+
+        return df
+
+    except Exception as e:
+        st.error(f"❌ Error al cargar planificación de riego: {e}")
+        import traceback
+        st.code(traceback.format_exc())
+        # Retornar DataFrame vacío en caso de error
+        return pd.DataFrame(columns=['semana_lunes', 'lote_albor'])
