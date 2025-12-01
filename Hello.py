@@ -414,11 +414,20 @@ def main():
                     st.plotly_chart(fig_dias, use_container_width=True)
 
                     with st.expander("Ver tabla detallada"):
-                        df_tabla_dias = df_resumen_filtrado[['id_simple', 'superficie_has', 'dia_ultimo_riego', 'dias_desde_ultimo_riego']].copy()
+                        # Usar df_mapa_dias para incluir todas las parcelas, incluyendo las con 999 días
+                        df_tabla_dias = df_mapa_dias[['ID_SIMPLE', 'Has', 'dias_desde_ultimo_riego']].copy()
+                        # Agregar columna de último riego desde df_resumen_filtrado
+                        df_tabla_dias = df_tabla_dias.merge(
+                            df_resumen_filtrado[['id_simple', 'dia_ultimo_riego']],
+                            left_on='ID_SIMPLE',
+                            right_on='id_simple',
+                            how='left'
+                        )
+                        df_tabla_dias = df_tabla_dias.drop(columns=['id_simple'])
                         df_tabla_dias = df_tabla_dias.sort_values('dias_desde_ultimo_riego', ascending=False)
                         df_tabla_dias = df_tabla_dias.rename(columns={
-                            'id_simple': 'ID Chacra',
-                            'superficie_has': 'Hectáreas',
+                            'ID_SIMPLE': 'ID Chacra',
+                            'Has': 'Hectáreas',
                             'dia_ultimo_riego': 'Último Riego',
                             'dias_desde_ultimo_riego': 'Días Transcurridos'
                         })
