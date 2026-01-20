@@ -6,6 +6,10 @@ import pandas as pd
 import datetime
 import plotly.express as px
 from datetime import timedelta
+import geopandas as gpd
+import tempfile
+import zipfile
+import os
 
 # Imports de nuestros módulos
 from config.config import KOBO_TOKEN, KOBO_FORM_ID, PATH_SHAPEFILE, URL_COIRCO, PLANIFICACION_SPREADSHEET_URL
@@ -415,7 +419,7 @@ def main():
 
                     with st.expander("Ver tabla detallada"):
                         # Usar df_mapa_dias para incluir todas las parcelas, incluyendo las con 999 días
-                        df_tabla_dias = df_mapa_dias[['ID_SIMPLE', 'Has', 'dias_desde_ultimo_riego']].copy()
+                        df_tabla_dias = df_mapa_dias[['id_riego', 'ID_SIMPLE', 'Has', 'dias_desde_ultimo_riego', 'geometry']].copy()
                         # Agregar columna de último riego desde df_resumen_filtrado
                         df_tabla_dias = df_tabla_dias.merge(
                             df_resumen_filtrado[['id_simple', 'dia_ultimo_riego']],
@@ -425,13 +429,60 @@ def main():
                         )
                         df_tabla_dias = df_tabla_dias.drop(columns=['id_simple'])
                         df_tabla_dias = df_tabla_dias.sort_values('dias_desde_ultimo_riego', ascending=False)
-                        df_tabla_dias = df_tabla_dias.rename(columns={
+
+                        # Crear GeoDataFrame para exportación
+                        gdf_export = gpd.GeoDataFrame(df_tabla_dias, geometry='geometry')
+
+                        # Renombrar columnas para la visualización
+                        df_tabla_dias_display = df_tabla_dias.drop(columns=['geometry']).rename(columns={
+                            'id_riego': 'ID Riego',
                             'ID_SIMPLE': 'ID Chacra',
                             'Has': 'Hectáreas',
                             'dia_ultimo_riego': 'Último Riego',
                             'dias_desde_ultimo_riego': 'Días Transcurridos'
                         })
-                        st.dataframe(df_tabla_dias, use_container_width=True, hide_index=True)
+                        st.dataframe(df_tabla_dias_display, use_container_width=True, hide_index=True)
+
+                        # Botón de exportación a Shapefile
+                        if st.button("Exportar a Shapefile (.shp)", key="export_shp_dias"):
+                            # Crear directorio temporal
+                            with tempfile.TemporaryDirectory() as tmpdir:
+                                # Nombre base para los archivos
+                                shp_base = os.path.join(tmpdir, "dias_desde_ultimo_riego")
+
+                                # Renombrar columnas para el shapefile (nombres cortos por limitación de shapefile)
+                                gdf_export_shp = gdf_export.rename(columns={
+                                    'id_riego': 'ID_Riego',
+                                    'ID_SIMPLE': 'ID_Chacra',
+                                    'Has': 'Hectareas',
+                                    'dia_ultimo_riego': 'Ult_Riego',
+                                    'dias_desde_ultimo_riego': 'Dias_Transc'
+                                })
+
+                                # Convertir datetime a string para compatibilidad con shapefile
+                                if 'Ult_Riego' in gdf_export_shp.columns:
+                                    gdf_export_shp['Ult_Riego'] = gdf_export_shp['Ult_Riego'].astype(str)
+
+                                # Guardar como shapefile
+                                gdf_export_shp.to_file(shp_base + ".shp")
+
+                                # Crear archivo ZIP con todos los componentes del shapefile
+                                zip_path = os.path.join(tmpdir, "dias_desde_ultimo_riego.zip")
+                                with zipfile.ZipFile(zip_path, 'w') as zipf:
+                                    for ext in ['.shp', '.shx', '.dbf', '.prj', '.cpg']:
+                                        file_path = shp_base + ext
+                                        if os.path.exists(file_path):
+                                            zipf.write(file_path, os.path.basename(file_path))
+
+                                # Leer el archivo ZIP para descarga
+                                with open(zip_path, 'rb') as f:
+                                    st.download_button(
+                                        label="Descargar Shapefile (ZIP)",
+                                        data=f.read(),
+                                        file_name="dias_desde_ultimo_riego.zip",
+                                        mime="application/zip",
+                                        key="download_shp_dias"
+                                    )
                 else:
                     st.info("No hay riegos en el rango de fechas seleccionado")
             else:

@@ -19,10 +19,12 @@ def cargar_datos_kobo(kobo_token, form_id):
     # Renombrar columnas y eliminar columnas innecesarias
     df = df[['end', 'Acci_n', 'chacra', '_submitted_by']]
     df = df.rename(columns={'end': 'timestamp', 'Acci_n': 'accion', 'chacra': 'id_riego', '_submitted_by': 'usuario'})
-    df['id_riego'] = df['id_riego'].str.strip()
+    df['id_riego'] = df['id_riego'].apply(lambda x: ' '.join(x.split()))
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.tz_convert(None)
     # Filtrar los datos de 2023 en adelante
     df = df[df['timestamp'].dt.year >= 2023]
+    # Eliminar registros que tengan a flopez_human como usuario
+    df = df[df['usuario'] != 'flopez_human']
     return df
 
 
@@ -34,7 +36,8 @@ def cargar_chacras(path):
     gdf = gdf[['id_riego', 'Has', 'ID_SIMPLE', 'geometry', 'Lote_2', '25-26 V']]
     gdf = gdf.set_geometry('geometry')
     #gdf = gdf.rename_geometry('geometry')
-    gdf['id_riego'] = gdf['id_riego'].str.strip()
+    gdf.fillna('SIN_ID_RIEGO', inplace=True)
+    gdf['id_riego'] = gdf['id_riego'].apply(lambda x: ' '.join(x.split()))
     #renombrar Lote_2 a lote_albor
     gdf = gdf.rename(columns={'Lote_2': 'lote_albor'})
     gdf = gdf.to_crs("WGS84")
